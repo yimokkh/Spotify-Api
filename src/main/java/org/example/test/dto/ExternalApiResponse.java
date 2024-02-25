@@ -1,7 +1,5 @@
 package org.example.test.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class ExternalApiResponse {
 
     public ExternalApiResponse(String name, Integer followers){

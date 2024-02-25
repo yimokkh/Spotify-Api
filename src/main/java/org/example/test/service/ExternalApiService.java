@@ -38,7 +38,6 @@ public class ExternalApiService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            String name = jsonNode.get("artists").get("items").get(0).get("followers").asText();
             return new ExternalApiResponse(jsonNode.get("artists").get("items").get(0).get("name").asText(),
                     Integer.parseInt(jsonNode.get("artists").get("items").get(0).get("followers").get("total").asText()));
         } catch (Exception exception){
