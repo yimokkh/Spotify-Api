@@ -1,6 +1,5 @@
 package org.example.test.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.test.dto.ExternalApiRequest;
@@ -27,11 +26,11 @@ public class ExternalApiService {
         return "hello";
     }
 
-    public ExternalApiResponse getByNameAndType(ExternalApiRequest request) throws JsonProcessingException {
+    public ExternalApiResponse getByNameAndType(ExternalApiRequest request)  {
         try {
             restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer BQBzp6HJEwCfQ-82MD8wGHrQM8DhZGbjsUsB63bSIBTelLMY3DiHhwVGrns0RVscK_ItbPBp3FgegVBDprOqTcZc3P78NT9a6gF2HhEIi5a8fcUkw7Q");
+            headers.add("Authorization", "Bearer BQA_Y1lZgxxV_-SIOp-f2QYZvMHLHoqV6cb8Hjs9rZ_eS1YixC7g-GuLfHlgeUz8U5wyu_VcXL4f41Z-Ad2KTaiegFbwawPPxoXI1VwIcr22YF5EAZ0");
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             String url = "https://api.spotify.com/v1/search?" + "q=" + request.getName() + "&type=" + request.getType() + "&limit=1";
             HttpEntity<String> entity = new HttpEntity<>(headers);

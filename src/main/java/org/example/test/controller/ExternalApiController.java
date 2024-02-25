@@ -1,6 +1,5 @@
 package org.example.test.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.example.test.dto.ExternalApiRequest;
 import org.example.test.dto.ExternalApiResponse;
 import org.example.test.service.ExternalApiService;
@@ -18,7 +17,7 @@ public class ExternalApiController {
 
     @GetMapping("/search")
     public ExternalApiResponse getByNameAndType(@RequestParam String name,
-                                                @RequestParam String type) throws JsonProcessingException {
+                                                @RequestParam String type)  {
         return externalApiService.getByNameAndType(new ExternalApiRequest(name, type));
     }
 
