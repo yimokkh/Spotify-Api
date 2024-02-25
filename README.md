@@ -1,6 +1,6 @@
-# Sunset and Sunrise API application
+# Spotify API application
 
-This repository contains a simple REST API application that provides sunset and sunrise information based on latitude, longitude and date.
+This repository allows you to search for data about artists, tracks and albums.
 
 ## Table of Contents
 
@@ -11,18 +11,15 @@ This repository contains a simple REST API application that provides sunset and 
   - [Installation](#installation)
 - [Usage](#usage)
 - [Endpoints](#endpoints)
-- [Configuration](#configuration)
 
 ## Introduction
 
-This is a basic REST API application built using [Spring Boot](https://spring.io/projects/spring-boot) framework and [Maven](https://maven.apache.org). The application allows users to get information about sunset and sunrise time information for a coordinates by making HTTP requests to predefined endpoints.
+This is a basic REST API application built using [Spring Boot](https://spring.io/projects/spring-boot) framework and [Maven](https://maven.apache.org). The application allows the user to get information about any artists, albums and tracks of interest to them by sending a request to predefined endpoints.
 
 ## Technologies Used
 
 - [Spring Boot](https://spring.io/projects/spring-boot): Web framework for building the REST API.
-- [Spring Data JPA](https://spring.io/projects/spring-data-jpa): Data access framework for interacting with the database.
-- [MySQL](https://www.mysql.com): Database for local and global use.
-- [Sunrise Sunset API](https://api.sunrise-sunset.org/json): External API for sunrise and sunset time information.
+- [Spotify Web Api](https://developer.spotify.com/documentation/web-api): An external API for getting information about artists, albums, and tracks.
 
 ## Getting Started
 
@@ -30,30 +27,15 @@ This is a basic REST API application built using [Spring Boot](https://spring.io
 
 Make sure you have the following installed:
 
-- Java (version 17 or higher)
+- Java (version 21)
 - Maven
-- MySQL server
-- MySQL driver
-- JPA
 
 ### Installation
 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/Willygodx/SunsetSunriseAPI
-    ```
-
-2. Build the project:
-
-    ```bash
-    mvn clean install
-    ```
-
-3. Run the application:
-
-    ```bash
-    java -jar target/SunsetSunriseAPI-0.0.1-SNAPSHOT.jar
+    git clone https://github.com/yimokkh/Spotify-Api
     ```
 
 The application will start on `http://localhost:8080`.
@@ -62,29 +44,20 @@ The application will start on `http://localhost:8080`.
 
 ### Endpoints
 
-- **Get sunrise and sunset time by latitude, longitude and date:**
+- **Getting the request data based on the name and type of the request:** 
   
   ```http
-  GET /sunset-sunrise/get-info?latitude=YOUR_LATITUDE&longitude=YOUR_LONGITUDE&date=YOUR_DATE
+  GET http://localhost:8080/api/search?name=ARTIST(ALBUM,TRACK)_NAME&type=TYPE_OF_INPUT_VALUES
   ```
 
-  Retrieves sunrise and sunset time information for the specified lat, lng and date.
+  Retrieves information about a given artist, album, or track.
 
   Example:
   ```http
-  GET /sunset-sunrise/get-info?latitude=51.508530&longitude=-0.125740&date=2024-02-19
+  GET http://localhost:8080/api/search?name=егор крид&type=artist
   ```
 
-### Configuration
 
-The application uses the [Sunrise Sunset API](https://sunrise-sunset.org) to fetch data. You need to obtain an API URL (https://api.sunrise-sunset.org/json) and configure it in the `application.properties` file.
-
-```properties
-# application.properties
-
-# Sunrise Sunset API URL
-external.api.url=https://api.sunrise-sunset.org/json
-```
 
 
  

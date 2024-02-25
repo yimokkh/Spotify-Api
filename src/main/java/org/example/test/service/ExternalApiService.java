@@ -30,7 +30,7 @@ public class ExternalApiService {
         try {
             restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer BQA_Y1lZgxxV_-SIOp-f2QYZvMHLHoqV6cb8Hjs9rZ_eS1YixC7g-GuLfHlgeUz8U5wyu_VcXL4f41Z-Ad2KTaiegFbwawPPxoXI1VwIcr22YF5EAZ0");
+            headers.add("Authorization", "Bearer BQBwqGBqFLvmE0imZwAzH3sD6YyEVFNAlb1CZYJ3LvKtXuxxcpaFlV0b6WOdvDkZ8BYhc_00EwI7jPnLpXWzBvfhvTNw2AsKofDBvEAvM0So16zLSE0");
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             String url = "https://api.spotify.com/v1/search?" + "q=" + request.getName() + "&type=" + request.getType() + "&limit=1";
             HttpEntity<String> entity = new HttpEntity<>(headers);
