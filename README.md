@@ -54,7 +54,7 @@ The application will start on `http://localhost:8080`.
 
   Example:
   ```http
-  GET /api/search?name=егор крид&type=artist
+  GET /api/search?name=yeat&type=artist
   ```
 
 
