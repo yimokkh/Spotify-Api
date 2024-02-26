@@ -47,14 +47,14 @@ The application will start on `http://localhost:8080`.
 - **Getting the request data based on the name and type of the request:** 
   
   ```http
-  GET http://localhost:8080/api/search?name=ARTIST(ALBUM,TRACK)_NAME&type=TYPE_OF_INPUT_VALUES
+  GET /api/search?name=ARTIST(ALBUM,TRACK)_NAME&type=TYPE_OF_INPUT_VALUES
   ```
 
   Retrieves information about a given artist, album, or track.
 
   Example:
   ```http
-  GET http://localhost:8080/api/search?name=егор крид&type=artist
+  GET /api/search?name=егор крид&type=artist
   ```
 
 
