@@ -16,34 +16,44 @@ public class ExternalApiService {
 
     RestTemplate restTemplate;
 
-    public ExternalApiService(ObjectMapper objectMapper){
+    public ExternalApiService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     private final ObjectMapper objectMapper;
 
-    public String updateToken(){
+    public String updateToken() {
         return "hello";
     }
 
-    public ExternalApiResponse getByNameAndType(ExternalApiRequest request)  {
+    public ExternalApiResponse getByNameAndType(ExternalApiRequest request) {
         try {
             restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer BQBwqGBqFLvmE0imZwAzH3sD6YyEVFNAlb1CZYJ3LvKtXuxxcpaFlV0b6WOdvDkZ8BYhc_00EwI7jPnLpXWzBvfhvTNw2AsKofDBvEAvM0So16zLSE0");
+            headers.add("Authorization", "Bearer BQBea1DCv2uBmlX8RHYpHEPjd3hsganUfnWsnFhaPvPot7-uuMlFFfZfQqahgoypBhQV6bNUa76RWt58tLgSUyi_I1kMLCGZR5-D5MABNMNGmYs3Riw");
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             String url = "https://api.spotify.com/v1/search?" + "q=" + request.getName() + "&type=" + request.getType() + "&limit=1";
             HttpEntity<String> entity = new HttpEntity<>(headers);
-
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            return new ExternalApiResponse(jsonNode.get("artists").get("items").get(0).get("name").asText(),
-                    Integer.parseInt(jsonNode.get("artists").get("items").get(0).get("followers").get("total").asText()));
-        } catch (Exception exception){
-            return null;
+            switch (request.getType()) {
+            case "artist":
+                jsonNode = jsonNode.get("artists").get("items").get(0);
+                return new ExternalApiResponse(jsonNode.get("name").asText(),
+                        (jsonNode.get("followers").get("total").asInt()),
+                        (jsonNode.get("popularity").asInt()));
+            }
+            case "track":
+
+
+
+            } catch(Exception exception){
+                return null;
+            }
+
         }
     }
-}
+
 
 
 // BQB3iWklopGVa7xhsZkez0D0MgwemLxKWOGPrIlGYbdHfQxZFiGQSMWAHMk1Oe16JdW18JGH9dvNDW3N4Lb4LV0NIvI3AFNyZm65TiBy8yJ2UP8Vf6k
