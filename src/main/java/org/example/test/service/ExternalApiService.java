@@ -30,28 +30,24 @@ public class ExternalApiService {
         try {
             restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer BQBea1DCv2uBmlX8RHYpHEPjd3hsganUfnWsnFhaPvPot7-uuMlFFfZfQqahgoypBhQV6bNUa76RWt58tLgSUyi_I1kMLCGZR5-D5MABNMNGmYs3Riw");
+            headers.add("Authorization", "Bearer BQATPiciTeP5M8vBM6NfCWFCtc3Xrjb-P4wh4GO7SCdB-oE1xKW9MOePjmdsAKqEIBlckTLLymWoGMA1dWLoWgEY3nNDkAGyNI3WnIC4Yp4x4gALM8E");
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             String url = "https://api.spotify.com/v1/search?" + "q=" + request.getName() + "&type=" + request.getType() + "&limit=1";
             HttpEntity<String> entity = new HttpEntity<>(headers);
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            switch (request.getType()) {
-            case "artist":
-                jsonNode = jsonNode.get("artists").get("items").get(0);
-                return new ExternalApiResponse(jsonNode.get("name").asText(),
-                        (jsonNode.get("followers").get("total").asInt()),
-                        (jsonNode.get("popularity").asInt()));
-            }
-            case "track":
+
+                    jsonNode = jsonNode.get("artists").get("items").get(0);
+                    return new ExternalApiResponse(jsonNode.get("name").asText(),
+                            (jsonNode.get("followers").get("total").asInt()),
+                            (jsonNode.get("popularity").asInt()),
+                            (jsonNode.get("external_urls").get("spotify").asText()));
 
 
-
-            } catch(Exception exception){
-                return null;
-            }
-
+        } catch (Exception exception) {
+            return null;
         }
+    }
     }
 
 

@@ -2,16 +2,27 @@ package org.example.test.dto;
 
 public class ExternalApiResponse {
 
-    public ExternalApiResponse(String name, Integer followers, Integer popularity){
+    public ExternalApiResponse(String name, Integer followers, Integer popularity, String reference){
         this.name = name;
         this.followers = followers;
         this.popularity = popularity;
+        this.reference = reference;
     }
+
+    private String reference;
     private String name;
 
     private Integer followers;
 
     private Integer popularity;
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
 
     public Integer getPopularity() {return popularity;}
 
