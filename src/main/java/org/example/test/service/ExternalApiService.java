@@ -52,8 +52,8 @@ public class ExternalApiService {
             ResponseEntity<String> response = restTemplateToken.exchange(spotifyApiTokenUrl, HttpMethod.POST, request, String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
             token = jsonNode.get("access_token").asText();
-        }  catch (Exception exception) {
-            exception.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace(); 
         }
     }
 
