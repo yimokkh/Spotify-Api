@@ -1,8 +1,8 @@
 package org.example.test.dto;
 
-public class ExternalApiResponse {
+public class ExternalApiResponseArtist {
 
-    public ExternalApiResponse(String name, Integer followers, Integer popularity, String reference){
+    public ExternalApiResponseArtist(String name, Integer followers, Integer popularity, String reference){
         this.name = name;
         this.followers = followers;
         this.popularity = popularity;

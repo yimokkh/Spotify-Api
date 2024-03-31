@@ -30,4 +30,6 @@ public class ExternalApiToken {
     public void setExpiresIn(Integer expiresIn) {
         this.expiresIn = expiresIn;
     }
+
 }
+

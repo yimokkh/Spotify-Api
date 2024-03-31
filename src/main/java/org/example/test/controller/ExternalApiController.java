@@ -1,8 +1,10 @@
 package org.example.test.controller;
 
 import org.example.test.dto.ExternalApiRequest;
-import org.example.test.dto.ExternalApiResponse;
-import org.example.test.service.ExternalApiService;
+import org.example.test.dto.ExternalApiResponseArtist;
+import org.example.test.dto.ExternalApiResponseTrack;
+
+import org.example.test.service.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,10 +17,14 @@ public class ExternalApiController {
         this.externalApiService = externalApiService;
     }
 
-    @GetMapping("/search")
-    public ExternalApiResponse getByNameAndType(@RequestParam String name,
-                                                @RequestParam String type)  {
-        return externalApiService.getByNameAndType(new ExternalApiRequest(name, type));
+    @GetMapping("/search/artists")
+    public ExternalApiResponseArtist getArtistByName(@RequestParam String name)  {
+        return externalApiService.getArtistByName(new ExternalApiRequest(name));
+    }
+
+    @GetMapping("/search/tracks")
+    public ExternalApiResponseTrack getTrackByName(@RequestParam String name)  {
+        return externalApiService.getTrackByName(new ExternalApiRequest(name));
     }
 
 }
