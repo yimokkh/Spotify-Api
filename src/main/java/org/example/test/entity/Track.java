@@ -1,5 +1,6 @@
 package org.example.test.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -20,8 +21,8 @@ public class Track {
         this.artist = artist;
     }
 
-
-    @ManyToMany
+    @JsonIgnoreProperties({"tracks"})
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "playlists_tracks",
             joinColumns = { @JoinColumn(name = "playlist_id") },
             inverseJoinColumns = { @JoinColumn(name = "track_id") })

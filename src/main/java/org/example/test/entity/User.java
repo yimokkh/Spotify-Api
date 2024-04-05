@@ -47,7 +47,7 @@ public class User {
         this.playlists = playlists;
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.REMOVE)
     private List<Playlist> playlists = new ArrayList<>();
 
     public void addPlaylist(String playlistName) {

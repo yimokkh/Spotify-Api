@@ -1,5 +1,6 @@
 package org.example.test.service;
 
+
 import org.example.test.entity.User;
 import org.example.test.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+
     }
 
     public void createUser(User user) {
@@ -26,6 +28,7 @@ public class UserService {
     }
 
     public Optional<User> getUserById(Integer id) {
+
         return userRepository.findById(id);
     }
 
