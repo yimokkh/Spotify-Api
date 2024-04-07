@@ -1,7 +1,6 @@
 package org.example.test.service;
 
 import org.example.test.cache.EntityCache;
-import org.example.test.entity.Playlist;
 import org.example.test.entity.Track;
 import org.example.test.repository.TrackRepository;
 import org.springframework.http.ResponseEntity;
