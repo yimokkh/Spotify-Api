@@ -17,12 +17,11 @@ public class Playlist {
     public Integer id;
     private String name;
     @JsonIgnoreProperties({"playlists"})
-     @ManyToMany(mappedBy = "playlists", cascade = CascadeType.REMOVE)
+     @ManyToMany(mappedBy = "playlists")
      private List<Track> tracks = new ArrayList<>();
 
 
-    @ManyToOne(
-            cascade = {CascadeType.DETACH,
+    @ManyToOne(cascade = {CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
     @JoinColumn(name = "user_id")

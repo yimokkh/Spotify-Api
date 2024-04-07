@@ -2,9 +2,11 @@ package org.example.test.controller;
 
 import org.example.test.entity.Track;
 import org.example.test.service.TrackService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tracks")
@@ -17,8 +19,19 @@ public class TrackController {
     }
 
     @GetMapping()
-    public List<Track> getAllTracks(){
+    public Optional<List<Track>> getAllTracks(){
         return trackService.getAllTracks();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Track> getTrackById(@PathVariable Integer id) {
+        return trackService.getTrackById(id);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Track>> searchTracksByName(@RequestParam String name) {
+        List<Track> tracks = trackService.findTracksByName(name);
+        return ResponseEntity.ok(tracks);
     }
 
     @PostMapping()
@@ -32,9 +45,10 @@ public class TrackController {
         trackService.deleteTrackById(id);
     }
 
+
     @PatchMapping("/{id}")
-    public void updateTrackNameById(@PathVariable Integer id,
-                                    @RequestParam String newName) {
-        trackService.updateTrackNameById(id, newName);
+    public ResponseEntity<Object> updateTrackNameById(@PathVariable Integer id,
+                                                      @RequestParam String newName) {
+        return trackService.updateTrackNameById(id, newName);
     }
 }

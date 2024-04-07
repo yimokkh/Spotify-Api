@@ -22,7 +22,7 @@ public class Track {
     }
 
     @JsonIgnoreProperties({"tracks"})
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(/*cascade = CascadeType.REMOVE*/)
     @JoinTable(name = "playlists_tracks",
             joinColumns = { @JoinColumn(name = "playlist_id") },
             inverseJoinColumns = { @JoinColumn(name = "track_id") })
@@ -63,4 +63,10 @@ public class Track {
     public void setPlaylists(Set<Playlist> playlists) {
         this.playlists = playlists;
     }
+
+    public void removePlaylist(Playlist playlist) {
+        playlists.remove(playlist);
+    }
+
+
 }

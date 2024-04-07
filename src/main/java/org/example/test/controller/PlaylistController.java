@@ -1,11 +1,12 @@
 package org.example.test.controller;
 
 import org.example.test.entity.Playlist;
-import org.example.test.entity.Track;
 import org.example.test.service.PlaylistService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/playlists")
@@ -19,9 +20,15 @@ public class PlaylistController {
     }
 
     @GetMapping()
-    public List<Playlist> getAllPlaylists(){
+    public Optional<List<Playlist>> getAllPlaylists(){
         return playlistService.getAllPlaylists();
     }
+
+    @GetMapping("/{id}")
+    public Optional<Playlist> getPlaylistById(@PathVariable Integer id) {
+        return playlistService.getPlaylistById(id);
+    }
+
 
     @PostMapping()
     public void postPlaylist(@RequestParam String name, @RequestParam Integer userId) {
@@ -34,10 +41,11 @@ public class PlaylistController {
     }
 
     @PatchMapping("/{id}")
-    public void updatePlaylistNameById(@PathVariable Integer id,
-                                       @RequestParam String newName) {
-        playlistService.updatePlaylistNameById(id, newName);
+    public ResponseEntity<Object> updatePlaylistNameById(@PathVariable Integer id,
+                                                 @RequestParam String newName) {
+        return playlistService.updatePlaylistNameById(id, newName);
     }
+
 
     @PostMapping("/{playlistId}/tracks/{trackId}")
     public void addTrackToPlaylist(@PathVariable Integer playlistId, @PathVariable Integer trackId) {
@@ -49,9 +57,5 @@ public class PlaylistController {
         playlistService.removeTrackFromPlaylist(playlistId, trackId);
     }
 
-    @GetMapping("/{playlistId}/tracks")
-    public List<Track> getTracksByPlaylistId(@PathVariable Integer playlistId) {
-        return playlistService.getTracksByPlaylistId(playlistId);
-    }
 
 }
