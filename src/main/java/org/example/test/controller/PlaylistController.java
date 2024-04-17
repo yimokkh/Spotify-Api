@@ -1,6 +1,7 @@
 package org.example.test.controller;
 
 import org.example.test.entity.Playlist;
+import org.example.test.exception.ServerException;
 import org.example.test.service.PlaylistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,11 @@ public class PlaylistController {
     @GetMapping()
     public Optional<List<Playlist>> getAllPlaylists() {
         return playlistService.getAllPlaylists();
+    }
+
+    @GetMapping("/error")
+    public void throwError() {
+        throw new ServerException("Internal Server Error occurred");
     }
 
     @GetMapping("/{id}")

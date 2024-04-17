@@ -1,4 +1,4 @@
-package org.example.test.exeption;
+package org.example.test.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

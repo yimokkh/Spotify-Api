@@ -1,4 +1,8 @@
-19:22:55.204 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
-19:22:55.267 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers() failed in 62 ms with message: No users has been created!
-19:22:58.162 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
-19:22:58.167 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 5 ms with message: No tracks has been created!
+23:03:27.125 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllPlaylists() with args: []
+23:03:27.195 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllPlaylists() failed in 70 ms with message: No playlists has been created!
+23:03:31.604 INFO  o.e.test.aop.aspect.LoggingAspect - Called method createUser() with args: [org.example.test.entity.User@4c59ec75]
+23:03:31.647 INFO  o.e.test.aop.aspect.LoggingAspect - Method createUser returned value: <200 OK OK,org.example.test.entity.User@4c59ec75,[]> in 43 ms
+23:03:33.398 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postPlaylist() with args: [1, pla1]
+23:03:33.426 INFO  o.e.test.aop.aspect.LoggingAspect - Method postPlaylist returned value: null in 28 ms
+23:03:36.991 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllPlaylists() with args: []
+23:03:37.000 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllPlaylists returned value: Optional[[org.example.test.entity.Playlist@3e4c1592]] in 9 ms

@@ -1,4 +1,4 @@
-package org.example.test.exeption;
+package org.example.test.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.hibernate.exception.ConstraintViolationException;
@@ -53,6 +53,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(
                 new ExceptionMessage(HttpStatus.METHOD_NOT_ALLOWED.value(), exception.getMessage()),
                 HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(ServerException.class)
+    public ResponseEntity<ExceptionMessage> serverException(Exception exception) {
+        return new ResponseEntity<>(
+                new ExceptionMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

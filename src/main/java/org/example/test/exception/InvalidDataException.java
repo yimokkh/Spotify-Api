@@ -1,4 +1,4 @@
-package org.example.test.exeption;
+package org.example.test.exception;
 
 public class InvalidDataException extends RuntimeException {
     public InvalidDataException(String message) {

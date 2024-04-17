@@ -5,7 +5,7 @@ import org.example.test.cache.EntityCache;
 import org.example.test.entity.Playlist;
 import org.example.test.entity.Track;
 import org.example.test.entity.User;
-import org.example.test.exeption.ResourceNotFoundException;
+import org.example.test.exception.ResourceNotFoundException;
 import org.example.test.repository.PlaylistRepository;
 import org.example.test.repository.TrackRepository;
 import org.example.test.repository.UserRepository;
