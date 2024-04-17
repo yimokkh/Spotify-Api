@@ -1,7 +1,5 @@
 package org.example.test.controller;
 
-
-import jakarta.validation.constraints.NotBlank;
 import org.example.test.entity.User;
 import org.example.test.service.UserService;
 import org.springframework.http.ResponseEntity;

@@ -3,11 +3,9 @@ package org.example.test.service;
 import org.example.test.aop.annotation.Logging;
 import org.example.test.cache.EntityCache;
 import org.example.test.entity.Track;
-import org.example.test.entity.User;
 import org.example.test.exeption.BadRequestErrorException;
 import org.example.test.exeption.ResourceNotFoundException;
 import org.example.test.repository.TrackRepository;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
