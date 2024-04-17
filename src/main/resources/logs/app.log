@@ -1,0 +1,4 @@
+19:22:55.204 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+19:22:55.267 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers() failed in 62 ms with message: No users has been created!
+19:22:58.162 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+19:22:58.167 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 5 ms with message: No tracks has been created!

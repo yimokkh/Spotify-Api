@@ -98,7 +98,7 @@ public class PlaylistService {
             playlistList.forEach(playlist -> cacheMap.put(playlist.getId(), playlist));
             return Optional.of(playlistList);
         } else {
-            return Optional.empty();
+            throw new ResourceNotFoundException("No playlists has been created!");
         }
     }
 
