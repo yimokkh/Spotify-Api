@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
-
 @Service
 public class ExternalApiService {
 
@@ -36,8 +35,6 @@ public class ExternalApiService {
 
     @Value("${external.api.spotifyApiTokenUrl}")
     private String spotifyApiTokenUrl;
-
-
 
     public String updateToken() {
         return "hello";

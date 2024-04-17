@@ -12,7 +12,7 @@ public class ExternalApiToken {
     @JsonProperty("expires_in")
     private Integer expiresIn;
 
-    public String getAccessToken(){
+    public String getAccessToken() {
       return accessToken;
     }
 

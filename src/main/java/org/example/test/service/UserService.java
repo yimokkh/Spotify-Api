@@ -1,7 +1,10 @@
 package org.example.test.service;
 
+import org.example.test.aop.annotation.Logging;
 import org.example.test.cache.EntityCache;
 import org.example.test.entity.User;
+import org.example.test.exeption.BadRequestErrorException;
+import org.example.test.exeption.ResourceNotFoundException;
 import org.example.test.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,12 +13,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Logging
 @Service
-public class UserService {
+public class    UserService {
 
     private final PlaylistService playlistService;
     private final UserRepository userRepository;
     private final EntityCache<Integer, Object> cacheMap;
+
+    private static final String USER_NOT_FOUND_MESSAGE = "User not found!";
+
+    private static final String USER_ALREADY_EXISTS_MESSAGE = "User already exists!";
+
+    private static final String NO_USERS_CREATED_MESSAGE = "No users has been created!";
 
     public UserService(UserRepository userRepository, EntityCache<Integer, Object> cacheMap,  PlaylistService playlistService) {
         this.userRepository = userRepository;
@@ -23,10 +33,15 @@ public class UserService {
         this.playlistService = playlistService;
     }
 
-    public void createUser(User user) {
-        User savedUser = userRepository.save(user);
-        Integer userId = savedUser.getId();
-        cacheMap.put(userId, savedUser);
+    public ResponseEntity<Object> createUser(User user) {
+        try {
+            User savedUser = userRepository.save(user);
+            Integer userId = savedUser.getId();
+            cacheMap.put(userId, savedUser);
+            return ResponseEntity.ok(savedUser);
+        } catch (Exception e) {
+            throw new BadRequestErrorException(USER_ALREADY_EXISTS_MESSAGE);
+        }
     }
 
     public void deleteUserById(Integer id) {
@@ -37,6 +52,8 @@ public class UserService {
             user.getPlaylists().clear();
             userRepository.deleteById(id);
             updateCacheForAllUsers();
+        } else {
+            throw new ResourceNotFoundException(USER_NOT_FOUND_MESSAGE);
         }
     }
 
@@ -49,7 +66,7 @@ public class UserService {
             updateCacheForUserById(id);
             return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.notFound().build();
+            throw new ResourceNotFoundException(USER_NOT_FOUND_MESSAGE);
         }
     }
 
@@ -59,7 +76,7 @@ public class UserService {
             userList.forEach(user -> cacheMap.put(user.getId(), user));
             return Optional.of(userList);
         } else {
-            return Optional.empty();
+            throw new ResourceNotFoundException(NO_USERS_CREATED_MESSAGE);
         }
     }
 
@@ -70,7 +87,8 @@ public class UserService {
         if (cachedData != null) {
             return Optional.ofNullable((User) cachedData);
         } else {
-            Optional<User> userOptional = userRepository.findById(id);
+            Optional<User> userOptional = Optional.ofNullable(userRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_MESSAGE)));
             userOptional.ifPresent(user -> cacheMap.put(hashCode, user));
             return userOptional;
         }
@@ -89,3 +107,4 @@ public class UserService {
         userOptional.ifPresent(user -> cacheMap.put(hashCode, user));
     }
 }
+

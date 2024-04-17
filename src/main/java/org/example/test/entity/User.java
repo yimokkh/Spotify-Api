@@ -16,7 +16,7 @@ public class User {
 
     private String name;
 
-    public User() {}
+    public User() { }
 
     public User(String name) {
         this.name = name;
@@ -38,7 +38,6 @@ public class User {
         this.name = name;
     }
 
-
     public List<Playlist> getPlaylists() {
         return playlists;
     }
@@ -55,7 +54,6 @@ public class User {
         Playlist playlist = new Playlist(playlistName, this);
         playlists.add(playlist);
     }
-
 
 }
 

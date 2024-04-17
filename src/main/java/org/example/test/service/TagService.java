@@ -15,7 +15,7 @@ public class TagService {
     private final TagRepository tagRepository;
     private final EntityCache<Integer, Object> cacheMap;
 
-    public TagService(TagRepository tagRepository, EntityCache<Integer, Object> cacheMap){
+    public TagService(TagRepository tagRepository, EntityCache<Integer, Object> cacheMap) {
         this.tagRepository = tagRepository;
         this.cacheMap = cacheMap;
     }
@@ -48,13 +48,11 @@ public class TagService {
         }
     }
 
-
-
-    public void postTag(Tag tag){
+    public void postTag(Tag tag) {
         tagRepository.save(tag);
     }
 
-    public void deleteTagById(Integer id){
+    public void deleteTagById(Integer id) {
         tagRepository.deleteById(id);
     }
 
@@ -69,7 +67,5 @@ public class TagService {
         }
         return null;
     }
-
-
 
 }

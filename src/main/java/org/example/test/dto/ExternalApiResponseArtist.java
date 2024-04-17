@@ -2,7 +2,7 @@ package org.example.test.dto;
 
 public class ExternalApiResponseArtist {
 
-    public ExternalApiResponseArtist(String name, Integer followers, Integer popularity, String reference){
+    public ExternalApiResponseArtist(String name, Integer followers, Integer popularity, String reference) {
         this.name = name;
         this.followers = followers;
         this.popularity = popularity;
@@ -24,9 +24,13 @@ public class ExternalApiResponseArtist {
         this.reference = reference;
     }
 
-    public Integer getPopularity() {return popularity;}
+    public Integer getPopularity() {
+        return popularity;
+    }
 
-    public void setPopularity(Integer popularity) {this.popularity = popularity;}
+    public void setPopularity(Integer popularity) {
+        this.popularity = popularity;
+    }
 
     public String getName() {
         return name;

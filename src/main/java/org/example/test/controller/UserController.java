@@ -1,6 +1,7 @@
 package org.example.test.controller;
 
 
+import jakarta.validation.constraints.NotBlank;
 import org.example.test.entity.User;
 import org.example.test.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +14,14 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class UserController {
 
-
     private final UserService userService;
 
-    public UserController(UserService userService){
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping()
-    public void createUser(@RequestParam String name){
+    public void createUser(@RequestParam String name) {
         userService.createUser(new User(name));
     }
 

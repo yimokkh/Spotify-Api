@@ -14,13 +14,12 @@ public class PlaylistController {
 
     private final PlaylistService playlistService;
 
-
-    public PlaylistController(PlaylistService playlistService){
+    public PlaylistController(PlaylistService playlistService) {
         this.playlistService = playlistService;
     }
 
     @GetMapping()
-    public Optional<List<Playlist>> getAllPlaylists(){
+    public Optional<List<Playlist>> getAllPlaylists() {
         return playlistService.getAllPlaylists();
     }
 
@@ -29,6 +28,11 @@ public class PlaylistController {
         return playlistService.getPlaylistById(id);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Playlist>> searchPlaylistsByTrackName(@RequestParam String trackName) {
+        List<Playlist> playlists = playlistService.findPlaylistsByTrackName(trackName);
+        return ResponseEntity.ok(playlists);
+    }
 
     @PostMapping()
     public void postPlaylist(@RequestParam String name, @RequestParam Integer userId) {
@@ -46,16 +50,14 @@ public class PlaylistController {
         return playlistService.updatePlaylistNameById(id, newName);
     }
 
-
     @PostMapping("/{playlistId}/tracks/{trackId}")
     public void addTrackToPlaylist(@PathVariable Integer playlistId, @PathVariable Integer trackId) {
         playlistService.addTrackToPlaylist(playlistId, trackId);
     }
 
     @DeleteMapping("/{playlistId}/tracks/{trackId}")
-    public void removeTrackFromPlaylist(@PathVariable Integer playlistId, @PathVariable Integer trackId){
+    public void removeTrackFromPlaylist(@PathVariable Integer playlistId, @PathVariable Integer trackId) {
         playlistService.removeTrackFromPlaylist(playlistId, trackId);
     }
-
 
 }

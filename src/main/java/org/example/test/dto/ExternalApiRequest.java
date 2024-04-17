@@ -12,7 +12,7 @@ public class ExternalApiRequest {
         this.name = name;
     }
 
-    public ExternalApiRequest(String name){
+    public ExternalApiRequest(String name) {
         this.name = name;
     }
 }

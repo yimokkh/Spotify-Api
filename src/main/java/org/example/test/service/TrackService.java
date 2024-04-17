@@ -1,8 +1,13 @@
 package org.example.test.service;
 
+import org.example.test.aop.annotation.Logging;
 import org.example.test.cache.EntityCache;
 import org.example.test.entity.Track;
+import org.example.test.entity.User;
+import org.example.test.exeption.BadRequestErrorException;
+import org.example.test.exeption.ResourceNotFoundException;
 import org.example.test.repository.TrackRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -10,27 +15,39 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Logging
 @Service
 public class TrackService {
 
     private final TrackRepository trackRepository;
     private final EntityCache<Integer, Object> cacheMap;
 
+    private static final String TRACK_NOT_FOUND_MESSAGE = "Track not found!";
 
     public TrackService(TrackRepository trackRepository, EntityCache<Integer, Object> cacheMap) {
         this.trackRepository = trackRepository;
         this.cacheMap = cacheMap;
     }
 
-    public void postTrack(Track track) {
-        Track savedTrack = trackRepository.save(track);
-        Integer trackId = savedTrack.getId();
-        cacheMap.put(trackId, savedTrack);
+    public ResponseEntity<Object> postTrack(Track track) {
+        try {
+            Track savedTrack = trackRepository.save(track);
+            Integer trackId = savedTrack.getId();
+            cacheMap.put(trackId, savedTrack);
+            return ResponseEntity.ok(savedTrack);
+        } catch (Exception e) {
+            throw new BadRequestErrorException("Failed to create track: " + e.getMessage());
+        }
     }
 
     public void deleteTrackById(Integer id) {
-        trackRepository.deleteById(id);
-        updateCacheForAllTracks();
+        Optional<Track> trackOptional = trackRepository.findById(id);
+        if (trackOptional.isPresent()) {
+            trackRepository.deleteById(id);
+            updateCacheForAllTracks();
+        } else {
+            throw new ResourceNotFoundException(TRACK_NOT_FOUND_MESSAGE);
+        }
     }
 
     public ResponseEntity<Object> updateTrackNameById(Integer id, String newName) {
@@ -42,7 +59,7 @@ public class TrackService {
             updateCacheForTrackById(id);
             return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.notFound().build();
+            throw new ResourceNotFoundException(TRACK_NOT_FOUND_MESSAGE);
         }
     }
 
@@ -63,14 +80,11 @@ public class TrackService {
         if (cachedData != null) {
             return Optional.ofNullable((Track) cachedData);
         } else {
-            Optional<Track> trackOptional = trackRepository.findById(id);
+            Optional<Track> trackOptional = Optional.ofNullable(trackRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException(TRACK_NOT_FOUND_MESSAGE)));
             trackOptional.ifPresent(track -> cacheMap.put(hashCode, track));
             return trackOptional;
         }
-    }
-
-    public List<Track> findTracksByName(String name) {
-        return trackRepository.findTracksByName(name);
     }
 
     private void updateCacheForAllTracks() {

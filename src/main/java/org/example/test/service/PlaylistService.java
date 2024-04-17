@@ -4,6 +4,7 @@ import org.example.test.cache.EntityCache;
 import org.example.test.entity.Playlist;
 import org.example.test.entity.Track;
 import org.example.test.entity.User;
+import org.example.test.exeption.ResourceNotFoundException;
 import org.example.test.repository.PlaylistRepository;
 import org.example.test.repository.TrackRepository;
 import org.example.test.repository.UserRepository;
@@ -17,7 +18,9 @@ import java.util.Optional;
 @Service
 public class PlaylistService {
 
-    private static final String PLAYLIST_NOT_FOUND = "Playlist not found";
+    private static final String PLAYLIST_NOT_FOUND_MESSAGE = "Playlist not found!";
+
+    private static final String TRACK_NOT_FOUND_MESSAGE = "Track not found!";
 
     private final TrackRepository trackRepository;
     private final PlaylistRepository playlistRepository;
@@ -31,6 +34,9 @@ public class PlaylistService {
         this.cacheMap = cacheMap;
     }
 
+    public List<Playlist> findPlaylistsByTrackName(String name) {
+        return playlistRepository.findPlaylistsByTrackName(name);
+    }
 
     public void deletePlaylistById(Integer id) {
         Optional<Playlist> optionalPlaylist = playlistRepository.findById(id);
@@ -41,7 +47,7 @@ public class PlaylistService {
             playlistRepository.deleteById(id);
             updateCacheForAllPlaylists();
         } else {
-            throw new IllegalArgumentException(PLAYLIST_NOT_FOUND);
+            throw new ResourceNotFoundException(PLAYLIST_NOT_FOUND_MESSAGE);
         }
     }
 
@@ -54,13 +60,13 @@ public class PlaylistService {
             updateCacheForPlaylistById(id);
             return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.notFound().build();
+            throw new ResourceNotFoundException(PLAYLIST_NOT_FOUND_MESSAGE);
         }
     }
 
     public void addTrackToPlaylist(Integer playlistId, Integer trackId) {
-        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new IllegalArgumentException(PLAYLIST_NOT_FOUND));
-        Track track = trackRepository.findById(trackId).orElseThrow(() -> new IllegalArgumentException("Track not found"));
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new ResourceNotFoundException(PLAYLIST_NOT_FOUND_MESSAGE));
+        Track track = trackRepository.findById(trackId).orElseThrow(() -> new ResourceNotFoundException(TRACK_NOT_FOUND_MESSAGE));
 
         playlist.addTrack(track);
         track.getPlaylists().add(playlist);
@@ -70,9 +76,9 @@ public class PlaylistService {
 
     public void removeTrackFromPlaylist(Integer playlistId, Integer trackId) {
         Playlist playlist = playlistRepository.findById(playlistId)
-                .orElseThrow(() -> new IllegalArgumentException(PLAYLIST_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(PLAYLIST_NOT_FOUND_MESSAGE));
         Track track = trackRepository.findById(trackId)
-                .orElseThrow(() -> new IllegalArgumentException("Track not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(TRACK_NOT_FOUND_MESSAGE));
 
         if (playlist.getTracks().contains(track)) {
             playlist.removeTrack(track);
@@ -80,7 +86,7 @@ public class PlaylistService {
             playlistRepository.save(playlist);
             updateCacheForPlaylistById(playlistId);
         } else {
-            throw new IllegalArgumentException("Track is not in the playlist");
+            throw new IllegalArgumentException("Track is not in the playlist!");
         }
     }
 
@@ -101,7 +107,8 @@ public class PlaylistService {
         if (cachedData != null) {
             return Optional.of((Playlist) cachedData);
         } else {
-            Optional<Playlist> optionalPlaylist = playlistRepository.findById(playlistId);
+            Optional<Playlist> optionalPlaylist = Optional.ofNullable(playlistRepository.findById(playlistId)
+                    .orElseThrow(() -> new ResourceNotFoundException(PLAYLIST_NOT_FOUND_MESSAGE)));
             optionalPlaylist.ifPresent(playlist -> cacheMap.put(hashCode, playlist));
             return optionalPlaylist;
         }
@@ -109,7 +116,7 @@ public class PlaylistService {
 
     public void postPlaylist(Integer userId, String name) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
         Playlist playlist = new Playlist(name);
         user.getPlaylists().add(playlist);
         playlist.setUser(user);
@@ -126,7 +133,6 @@ public class PlaylistService {
         }
         cacheMap.put(hashCode, playlistList);
     }
-
 
     private void updateCacheForPlaylistById(Integer id) {
         int hashCode = Objects.hash("playlist_by_id", id);

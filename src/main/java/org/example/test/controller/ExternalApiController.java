@@ -13,7 +13,7 @@ public class ExternalApiController {
 
     private final ExternalApiService externalApiService;
 
-    public ExternalApiController(ExternalApiService externalApiService){
+    public ExternalApiController(ExternalApiService externalApiService) {
         this.externalApiService = externalApiService;
     }
 

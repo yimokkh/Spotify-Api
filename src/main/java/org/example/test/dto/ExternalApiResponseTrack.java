@@ -2,7 +2,7 @@ package org.example.test.dto;
 
 public class ExternalApiResponseTrack {
 
-    public ExternalApiResponseTrack(String artistName, String trackName){
+    public ExternalApiResponseTrack(String artistName, String trackName) {
         this.artistName = artistName;
         this.trackName = trackName;
     }

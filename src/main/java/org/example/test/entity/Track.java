@@ -9,26 +9,26 @@ import java.util.Set;
 @Entity
 public class Track {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
     private String name;
 
     private String artist;
 
-    public Track(String name, String artist){
+    public Track(String name, String artist) {
         this.name = name;
         this.artist = artist;
     }
 
     @JsonIgnoreProperties({"tracks"})
-    @ManyToMany(/*cascade = CascadeType.REMOVE*/)
+    @ManyToMany()
     @JoinTable(name = "playlists_tracks",
             joinColumns = { @JoinColumn(name = "playlist_id") },
             inverseJoinColumns = { @JoinColumn(name = "track_id") })
     private Set<Playlist> playlists = new HashSet<>();
 
-    public Track(){
+    public Track() {
 
     }
 
@@ -67,6 +67,5 @@ public class Track {
     public void removePlaylist(Playlist playlist) {
         playlists.remove(playlist);
     }
-
 
 }

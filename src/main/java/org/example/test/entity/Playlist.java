@@ -12,14 +12,13 @@ import java.util.List;
 })
 public class Playlist {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     public Integer id;
     private String name;
     @JsonIgnoreProperties({"playlists"})
      @ManyToMany(mappedBy = "playlists")
      private List<Track> tracks = new ArrayList<>();
-
 
     @ManyToOne(cascade = {CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.PERSIST,
@@ -31,7 +30,7 @@ public class Playlist {
         this.user = user;
     }
 
-    public Playlist(String name){
+    public Playlist(String name) {
         this.name = name;
     }
 
@@ -40,14 +39,17 @@ public class Playlist {
         this.user = user;
         user.addPlaylist(String.valueOf(this));
     }
-    public Playlist(){
+
+    public Playlist() {
     }
 
-    public void addTrack(Track track){
+    public void addTrack(Track track) {
         this.tracks.add(track);
     }
 
-    public void removeTrack(Track track){this.tracks.remove(track);}
+    public void removeTrack(Track track) {
+        this.tracks.remove(track);
+    }
 
     public void setName(String newName) {
         this.name = newName;

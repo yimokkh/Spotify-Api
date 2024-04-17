@@ -12,23 +12,23 @@ import java.util.List;
 public class TagController {
     private final TagService tagService;
 
-    public TagController(TagService tagService){
+    public TagController(TagService tagService) {
         this.tagService = tagService;
     }
 
     @GetMapping()
-    public List<Tag> getAllTags(){
+    public List<Tag> getAllTags() {
         return tagService.getAllTags();
     }
 
     @GetMapping("/{id}")
-    public Tag getTagById(@PathVariable Integer id){
+    public Tag getTagById(@PathVariable Integer id) {
         return tagService.getTagById(id);
     }
 
     @PostMapping()
     public void postTag(@RequestParam String text,
-                        @RequestParam String track){
+                        @RequestParam String track) {
         tagService.postTag(new Tag(text, track));
     }
 

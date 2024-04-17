@@ -14,12 +14,12 @@ public class TrackController {
 
     private final TrackService trackService;
 
-    public TrackController(TrackService trackService){
+    public TrackController(TrackService trackService) {
         this.trackService = trackService;
     }
 
     @GetMapping()
-    public Optional<List<Track>> getAllTracks(){
+    public Optional<List<Track>> getAllTracks() {
         return trackService.getAllTracks();
     }
 
@@ -28,15 +28,9 @@ public class TrackController {
         return trackService.getTrackById(id);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<Track>> searchTracksByName(@RequestParam String name) {
-        List<Track> tracks = trackService.findTracksByName(name);
-        return ResponseEntity.ok(tracks);
-    }
-
     @PostMapping()
     public void postTrack(@RequestParam String name,
-                          @RequestParam String artist){
+                          @RequestParam String artist) {
         trackService.postTrack(new Track(name, artist));
     }
 
@@ -44,7 +38,6 @@ public class TrackController {
     public void deleteTrackById(@PathVariable Integer id) {
         trackService.deleteTrackById(id);
     }
-
 
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateTrackNameById(@PathVariable Integer id,
