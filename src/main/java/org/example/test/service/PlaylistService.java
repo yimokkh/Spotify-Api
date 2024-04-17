@@ -1,5 +1,6 @@
 package org.example.test.service;
 
+import org.example.test.aop.annotation.Logging;
 import org.example.test.cache.EntityCache;
 import org.example.test.entity.Playlist;
 import org.example.test.entity.Track;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Logging
 @Service
 public class PlaylistService {
 
