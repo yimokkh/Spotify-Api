@@ -1,6 +1,9 @@
 package org.example.test.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.atLeast;
@@ -23,6 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -287,6 +291,80 @@ class UserServiceDiffblueTest {
         // Act and Assert
         assertThrows(BadRequestErrorException.class, () -> userService.deleteUserById(1));
         verify(playlistService).deletePlaylistById(eq(1));
+        verify(userRepository).findById(eq(1));
+    }
+
+    /**
+     * Method under test: {@link UserService#updateUserNameById(Integer, String)}
+     */
+    @Test
+    void testUpdateUserNameById() {
+        // Arrange
+        User user = new User();
+        user.setId(1);
+        user.setName("Name");
+        user.setPlaylists(new ArrayList<>());
+        Optional<User> ofResult = Optional.of(user);
+
+        User user2 = new User();
+        user2.setId(1);
+        user2.setName("Name");
+        user2.setPlaylists(new ArrayList<>());
+        when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
+        when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+        doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        // Act
+        ResponseEntity<Object> actualUpdateUserNameByIdResult = userService.updateUserNameById(1, "New Name");
+
+        // Assert
+        verify(entityCache).put(eq(-632678125), isA(Object.class));
+        verify(userRepository, atLeast(1)).findById(eq(1));
+        verify(userRepository).save(isA(User.class));
+        assertNull(actualUpdateUserNameByIdResult.getBody());
+        assertEquals(200, actualUpdateUserNameByIdResult.getStatusCodeValue());
+        assertTrue(actualUpdateUserNameByIdResult.getHeaders().isEmpty());
+    }
+
+    /**
+     * Method under test: {@link UserService#updateUserNameById(Integer, String)}
+     */
+    @Test
+    void testUpdateUserNameById2() {
+        // Arrange
+        User user = new User();
+        user.setId(1);
+        user.setName("Name");
+        user.setPlaylists(new ArrayList<>());
+        Optional<User> ofResult = Optional.of(user);
+
+        User user2 = new User();
+        user2.setId(1);
+        user2.setName("Name");
+        user2.setPlaylists(new ArrayList<>());
+        when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
+        when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+        doThrow(new BadRequestErrorException("An error occurred")).when(entityCache)
+                .put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        // Act and Assert
+        assertThrows(BadRequestErrorException.class, () -> userService.updateUserNameById(1, "New Name"));
+        verify(entityCache).put(eq(-632678125), isA(Object.class));
+        verify(userRepository, atLeast(1)).findById(eq(1));
+        verify(userRepository).save(isA(User.class));
+    }
+
+    /**
+     * Method under test: {@link UserService#updateUserNameById(Integer, String)}
+     */
+    @Test
+    void testUpdateUserNameById3() {
+        // Arrange
+        Optional<User> emptyResult = Optional.empty();
+        when(userRepository.findById(Mockito.<Integer>any())).thenReturn(emptyResult);
+
+        // Act and Assert
+        assertThrows(ResourceNotFoundException.class, () -> userService.updateUserNameById(1, "New Name"));
         verify(userRepository).findById(eq(1));
     }
 }
