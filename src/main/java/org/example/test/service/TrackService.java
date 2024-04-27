@@ -27,12 +27,12 @@ public class TrackService {
         this.cacheMap = cacheMap;
     }
 
-    public ResponseEntity<Object> postTrack(Track track) {
+    public void postTrack(Track track) {
         try {
             Track savedTrack = trackRepository.save(track);
             Integer trackId = savedTrack.getId();
             cacheMap.put(trackId, savedTrack);
-            return ResponseEntity.ok(savedTrack);
+            ResponseEntity.ok(savedTrack);
         } catch (Exception e) {
             throw new BadRequestErrorException("Failed to create track: " + e.getMessage());
         }

@@ -33,12 +33,12 @@ public class    UserService {
         this.playlistService = playlistService;
     }
 
-    public ResponseEntity<Object> createUser(User user) {
+    public void createUser(User user) {
         try {
             User savedUser = userRepository.save(user);
             Integer userId = savedUser.getId();
             cacheMap.put(userId, savedUser);
-            return ResponseEntity.ok(savedUser);
+            ResponseEntity.ok(savedUser);
         } catch (Exception e) {
             throw new BadRequestErrorException(USER_ALREADY_EXISTS_MESSAGE);
         }
@@ -85,7 +85,7 @@ public class    UserService {
         Object cachedData = cacheMap.get(hashCode);
 
         if (cachedData != null) {
-            return Optional.ofNullable((User) cachedData);
+            return Optional.of((User) cachedData);
         } else {
             Optional<User> userOptional = Optional.ofNullable(userRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_MESSAGE)));
