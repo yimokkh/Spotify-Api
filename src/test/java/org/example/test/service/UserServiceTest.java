@@ -9,10 +9,12 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.example.test.cache.EntityCache;
@@ -34,7 +36,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = {UserService.class})
 @ExtendWith(SpringExtension.class)
 @DisabledInAotMode
-class UserServiceDiffblueTest {
+class UserServiceTest {
     @MockBean
     private EntityCache<Integer, Object> entityCache;
 
@@ -366,5 +368,174 @@ class UserServiceDiffblueTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> userService.updateUserNameById(1, "New Name"));
         verify(userRepository).findById(eq(1));
+    }
+
+    /**
+     * Method under test: {@link UserService#getAllUsers()}
+     */
+    @Test
+    void testGetAllUsers() {
+        // Arrange
+        when(userRepository.findAll()).thenReturn(new ArrayList<>());
+
+        // Act and Assert
+        assertThrows(ResourceNotFoundException.class, () -> userService.getAllUsers());
+        verify(userRepository).findAll();
+    }
+
+    /**
+     * Method under test: {@link UserService#getAllUsers()}
+     */
+    @Test
+    void testGetAllUsers2() {
+        // Arrange
+        User user = new User();
+        user.setId(1);
+        user.setName("No users has been created!");
+        user.setPlaylists(new ArrayList<>());
+
+        ArrayList<User> userList = new ArrayList<>();
+        userList.add(user);
+        when(userRepository.findAll()).thenReturn(userList);
+        doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        // Act
+        Optional<List<User>> actualAllUsers = userService.getAllUsers();
+
+        // Assert
+        verify(entityCache).put(eq(1), isA(Object.class));
+        verify(userRepository).findAll();
+        assertTrue(actualAllUsers.isPresent());
+    }
+
+    /**
+     * Method under test: {@link UserService#getAllUsers()}
+     */
+    @Test
+    void testGetAllUsers3() {
+        // Arrange
+        User user = new User();
+        user.setId(1);
+        user.setName("No users has been created!");
+        user.setPlaylists(new ArrayList<>());
+
+        User user2 = new User();
+        user2.setId(2);
+        user2.setName("42");
+        user2.setPlaylists(new ArrayList<>());
+
+        ArrayList<User> userList = new ArrayList<>();
+        userList.add(user2);
+        userList.add(user);
+        when(userRepository.findAll()).thenReturn(userList);
+        doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        // Act
+        Optional<List<User>> actualAllUsers = userService.getAllUsers();
+
+        // Assert
+        verify(entityCache, atLeast(1)).put(Mockito.<Integer>any(), Mockito.<Object>any());
+        verify(userRepository).findAll();
+        assertTrue(actualAllUsers.isPresent());
+    }
+
+    /**
+     * Method under test: {@link UserService#getAllUsers()}
+     */
+    @Test
+    void testGetAllUsers4() {
+        // Arrange
+        User user = new User();
+        user.setId(1);
+        user.setName("No users has been created!");
+        user.setPlaylists(new ArrayList<>());
+
+        ArrayList<User> userList = new ArrayList<>();
+        userList.add(user);
+        when(userRepository.findAll()).thenReturn(userList);
+        doThrow(new BadRequestErrorException("An error occurred")).when(entityCache)
+                .put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        // Act and Assert
+        assertThrows(BadRequestErrorException.class, () -> userService.getAllUsers());
+        verify(entityCache).put(eq(1), isA(Object.class));
+        verify(userRepository).findAll();
+    }
+
+    /**
+     * Method under test: {@link UserService#getUserById(Integer)}
+     */
+    @Test
+    void testGetUserById() {
+        // Arrange
+        when(entityCache.get(Mockito.<Integer>any())).thenThrow(new ResourceNotFoundException("An error occurred"));
+
+        // Act and Assert
+        assertThrows(ResourceNotFoundException.class, () -> userService.getUserById(1));
+        verify(entityCache).get(eq(-632678125));
+    }
+
+    /**
+     * Method under test: {@link UserService#getUserById(Integer)}
+     */
+    @Test
+    void testGetUserById2() {
+        // Arrange
+        User user = mock(User.class);
+        doNothing().when(user).setId(Mockito.<Integer>any());
+        doNothing().when(user).setName(Mockito.<String>any());
+        doNothing().when(user).setPlaylists(Mockito.<List<Playlist>>any());
+        user.setId(1);
+        user.setName("Name");
+        user.setPlaylists(new ArrayList<>());
+        Optional.of(user);
+
+        User user2 = new User();
+        user2.setId(1);
+        user2.setName("user_by_id");
+        user2.setPlaylists(new ArrayList<>());
+        when(entityCache.get(Mockito.<Integer>any())).thenReturn(user2);
+
+        // Act
+        Optional<User> actualUserById = userService.getUserById(1);
+
+        // Assert
+        verify(entityCache).get(eq(-632678125));
+        verify(user).setId(eq(1));
+        verify(user).setName(eq("Name"));
+        verify(user).setPlaylists(isA(List.class));
+        assertTrue(actualUserById.isPresent());
+    }
+
+    /**
+     * Method under test: {@link UserService#getUserById(Integer)}
+     */
+    @Test
+    void testGetUserById3() {
+        // Arrange
+        User user = mock(User.class);
+        doNothing().when(user).setId(Mockito.<Integer>any());
+        doNothing().when(user).setName(Mockito.<String>any());
+        doNothing().when(user).setPlaylists(Mockito.<List<Playlist>>any());
+        user.setId(1);
+        user.setName("Name");
+        user.setPlaylists(new ArrayList<>());
+        Optional<User> ofResult = Optional.of(user);
+        when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+        when(entityCache.get(Mockito.<Integer>any())).thenReturn(null);
+        doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        // Act
+        Optional<User> actualUserById = userService.getUserById(1);
+
+        // Assert
+        verify(entityCache).get(eq(-632678125));
+        verify(entityCache).put(eq(-632678125), isA(Object.class));
+        verify(user).setId(eq(1));
+        verify(user).setName(eq("Name"));
+        verify(user).setPlaylists(isA(List.class));
+        verify(userRepository).findById(eq(1));
+        assertTrue(actualUserById.isPresent());
+        assertEquals(ofResult, actualUserById);
     }
 }
