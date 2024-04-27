@@ -69,7 +69,7 @@ class PlaylistServiceTest {
         List<Playlist> actualFindPlaylistsByTrackNameResult = playlistService.findPlaylistsByTrackName("Name");
 
         // Assert
-        verify(playlistRepository).findPlaylistsByTrackName(eq("Name"));
+        verify(playlistRepository).findPlaylistsByTrackName("Name");
         assertTrue(actualFindPlaylistsByTrackNameResult.isEmpty());
         assertSame(playlistList, actualFindPlaylistsByTrackNameResult);
     }
@@ -85,7 +85,7 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.findPlaylistsByTrackName("Name"));
-        verify(playlistRepository).findPlaylistsByTrackName(eq("Name"));
+        verify(playlistRepository).findPlaylistsByTrackName("Name");
     }
 
     /**
@@ -115,8 +115,8 @@ class PlaylistServiceTest {
 
         // Assert
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
-        verify(playlistRepository).deleteById(eq(1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).deleteById(1);
+        verify(playlistRepository).findById(1);
         verify(playlistRepository).findAll();
     }
 
@@ -146,8 +146,8 @@ class PlaylistServiceTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.deletePlaylistById(1));
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
-        verify(playlistRepository).deleteById(eq(1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).deleteById(1);
+        verify(playlistRepository).findById(1);
         verify(playlistRepository).findAll();
     }
 
@@ -192,8 +192,8 @@ class PlaylistServiceTest {
 
         // Assert
         verify(entityCache, atLeast(1)).put(Mockito.<Integer>any(), Mockito.<Object>any());
-        verify(playlistRepository).deleteById(eq(1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).deleteById(1);
+        verify(playlistRepository).findById(1);
         verify(playlistRepository).findAll();
     }
 
@@ -250,8 +250,8 @@ class PlaylistServiceTest {
 
         // Assert
         verify(entityCache, atLeast(1)).put(Mockito.<Integer>any(), Mockito.<Object>any());
-        verify(playlistRepository).deleteById(eq(1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).deleteById(1);
+        verify(playlistRepository).findById(1);
         verify(playlistRepository).findAll();
     }
 
@@ -287,12 +287,12 @@ class PlaylistServiceTest {
         // Assert
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
         verify(playlist, atLeast(1)).getTracks();
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("New Name"));
+        verify(playlist).setId(1);
+        verify(playlist).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(playlistRepository).deleteById(eq(1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).deleteById(1);
+        verify(playlistRepository).findById(1);
         verify(playlistRepository).findAll();
     }
 
@@ -337,12 +337,12 @@ class PlaylistServiceTest {
         // Assert
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
         verify(playlist, atLeast(1)).getTracks();
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("New Name"));
+        verify(playlist).setId(1);
+        verify(playlist).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(playlistRepository).deleteById(eq(1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).deleteById(1);
+        verify(playlistRepository).findById(1);
         verify(playlistRepository).findAll();
     }
 
@@ -394,12 +394,12 @@ class PlaylistServiceTest {
         // Assert
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
         verify(playlist, atLeast(1)).getTracks();
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("New Name"));
+        verify(playlist).setId(1);
+        verify(playlist).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(playlistRepository).deleteById(eq(1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).deleteById(1);
+        verify(playlistRepository).findById(1);
         verify(playlistRepository).findAll();
     }
 
@@ -414,7 +414,7 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.deletePlaylistById(1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
     }
 
     /**
@@ -455,7 +455,7 @@ class PlaylistServiceTest {
 
         // Assert
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
-        verify(playlistRepository, atLeast(1)).findById(eq(1));
+        verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         assertNull(actualUpdatePlaylistNameByIdResult.getBody());
         assertEquals(200, actualUpdatePlaylistNameByIdResult.getStatusCodeValue());
@@ -499,7 +499,7 @@ class PlaylistServiceTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.updatePlaylistNameById(1, "New Name"));
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
-        verify(playlistRepository, atLeast(1)).findById(eq(1));
+        verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
     }
 
@@ -544,11 +544,11 @@ class PlaylistServiceTest {
 
         // Assert
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
-        verify(playlist).setId(eq(1));
-        verify(playlist, atLeast(1)).setName(eq("New Name"));
+        verify(playlist).setId(1);
+        verify(playlist, atLeast(1)).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(playlistRepository, atLeast(1)).findById(eq(1));
+        verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         assertNull(actualUpdatePlaylistNameByIdResult.getBody());
         assertEquals(200, actualUpdatePlaylistNameByIdResult.getStatusCodeValue());
@@ -567,7 +567,7 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.updatePlaylistNameById(1, "New Name"));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
     }
 
     /**
@@ -616,8 +616,8 @@ class PlaylistServiceTest {
 
         // Assert
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
-        verify(trackRepository).findById(eq(1));
-        verify(playlistRepository, atLeast(1)).findById(eq(1));
+        verify(trackRepository).findById(1);
+        verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
     }
 
@@ -666,8 +666,8 @@ class PlaylistServiceTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.addTrackToPlaylist(1, 1));
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
-        verify(trackRepository).findById(eq(1));
-        verify(playlistRepository, atLeast(1)).findById(eq(1));
+        verify(trackRepository).findById(1);
+        verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
     }
 
@@ -722,12 +722,12 @@ class PlaylistServiceTest {
         // Assert
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
         verify(playlist).addTrack(isA(Track.class));
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("New Name"));
+        verify(playlist).setId(1);
+        verify(playlist).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(trackRepository).findById(eq(1));
-        verify(playlistRepository, atLeast(1)).findById(eq(1));
+        verify(trackRepository).findById(1);
+        verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
     }
 
@@ -751,7 +751,7 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.addTrackToPlaylist(1, 1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
     }
 
     /**
@@ -781,12 +781,12 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.addTrackToPlaylist(1, 1));
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("New Name"));
+        verify(playlist).setId(1);
+        verify(playlist).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(playlistRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -819,8 +819,8 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(IllegalArgumentException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));
-        verify(playlistRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -847,8 +847,8 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));
-        verify(playlistRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -886,12 +886,12 @@ class PlaylistServiceTest {
         // Act and Assert
         assertThrows(IllegalArgumentException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));
         verify(playlist).getTracks();
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("New Name"));
+        verify(playlist).setId(1);
+        verify(playlist).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(playlistRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -914,7 +914,7 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
     }
 
     /**
@@ -944,12 +944,12 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("New Name"));
+        verify(playlist).setId(1);
+        verify(playlist).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(playlistRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -1071,8 +1071,8 @@ class PlaylistServiceTest {
         // Assert
         verify(entityCache).put(eq(1), isA(Object.class));
         verify(playlist).getId();
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("No playlists has been created!"));
+        verify(playlist).setId(1);
+        verify(playlist).setName("No playlists has been created!");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
         verify(playlistRepository).findAll();
@@ -1089,7 +1089,7 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(IllegalArgumentException.class, () -> playlistService.getPlaylistById(1));
-        verify(entityCache).get(eq(-1693582036));
+        verify(entityCache).get(-1693582036);
     }
 
     /**
@@ -1132,13 +1132,13 @@ class PlaylistServiceTest {
         Optional<Playlist> actualPlaylistById = playlistService.getPlaylistById(1);
 
         // Assert
-        verify(entityCache).get(eq(-1693582036));
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("New Name"));
+        verify(entityCache).get(-1693582036);
+        verify(playlist).setId(1);
+        verify(playlist).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(user).setId(eq(1));
-        verify(user).setName(eq("Name"));
+        verify(user).setId(1);
+        verify(user).setName("Name");
         verify(user).setPlaylists(isA(List.class));
         assertTrue(actualPlaylistById.isPresent());
     }
@@ -1174,16 +1174,16 @@ class PlaylistServiceTest {
         Optional<Playlist> actualPlaylistById = playlistService.getPlaylistById(1);
 
         // Assert
-        verify(entityCache).get(eq(-1693582036));
+        verify(entityCache).get(-1693582036);
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
-        verify(playlist).setId(eq(1));
-        verify(playlist).setName(eq("New Name"));
+        verify(playlist).setId(1);
+        verify(playlist).setName("New Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
-        verify(user).setId(eq(1));
-        verify(user).setName(eq("Name"));
+        verify(user).setId(1);
+        verify(user).setName("Name");
         verify(user).setPlaylists(isA(List.class));
-        verify(playlistRepository).findById(eq(1));
+        verify(playlistRepository).findById(1);
         assertTrue(actualPlaylistById.isPresent());
         assertEquals(ofResult, actualPlaylistById);
     }
@@ -1220,7 +1220,7 @@ class PlaylistServiceTest {
 
         // Assert
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         verify(playlistRepository).findAll();
     }
@@ -1256,7 +1256,7 @@ class PlaylistServiceTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.postPlaylist(1, "Name"));
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         verify(playlistRepository).findAll();
     }
@@ -1307,7 +1307,7 @@ class PlaylistServiceTest {
 
         // Assert
         verify(entityCache, atLeast(1)).put(Mockito.<Integer>any(), Mockito.<Object>any());
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         verify(playlistRepository).findAll();
     }
@@ -1370,7 +1370,7 @@ class PlaylistServiceTest {
 
         // Assert
         verify(entityCache, atLeast(1)).put(Mockito.<Integer>any(), Mockito.<Object>any());
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         verify(playlistRepository).findAll();
     }
@@ -1386,7 +1386,7 @@ class PlaylistServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.postPlaylist(1, "Name"));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).findById(1);
     }
 
     /**
@@ -1434,7 +1434,7 @@ class PlaylistServiceTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.postPlaylist(1, "Name"));
         verify(entityCache).put(eq(3), isA(Object.class));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         verify(playlistRepository).findAll();
     }

@@ -121,8 +121,8 @@ class UserServiceTest {
 
         // Assert
         verify(entityCache).put(eq(-86970902), isA(Object.class));
-        verify(userRepository).deleteById(eq(1));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).deleteById(1);
+        verify(userRepository).findById(1);
         verify(userRepository).findAll();
     }
 
@@ -146,8 +146,8 @@ class UserServiceTest {
         // Act and Assert
         assertThrows(BadRequestErrorException.class, () -> userService.deleteUserById(1));
         verify(entityCache).put(eq(-86970902), isA(Object.class));
-        verify(userRepository).deleteById(eq(1));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).deleteById(1);
+        verify(userRepository).findById(1);
         verify(userRepository).findAll();
     }
 
@@ -187,9 +187,9 @@ class UserServiceTest {
 
         // Assert
         verify(entityCache).put(eq(-86970902), isA(Object.class));
-        verify(playlistService).deletePlaylistById(eq(1));
-        verify(userRepository).deleteById(eq(1));
-        verify(userRepository).findById(eq(1));
+        verify(playlistService).deletePlaylistById(1);
+        verify(userRepository).deleteById(1);
+        verify(userRepository).findById(1);
         verify(userRepository).findAll();
     }
 
@@ -242,8 +242,8 @@ class UserServiceTest {
         // Assert
         verify(entityCache).put(eq(-86970902), isA(Object.class));
         verify(playlistService, atLeast(1)).deletePlaylistById(Mockito.<Integer>any());
-        verify(userRepository).deleteById(eq(1));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).deleteById(1);
+        verify(userRepository).findById(1);
         verify(userRepository).findAll();
     }
 
@@ -258,7 +258,7 @@ class UserServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> userService.deleteUserById(1));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).findById(1);
     }
 
     /**
@@ -292,8 +292,8 @@ class UserServiceTest {
 
         // Act and Assert
         assertThrows(BadRequestErrorException.class, () -> userService.deleteUserById(1));
-        verify(playlistService).deletePlaylistById(eq(1));
-        verify(userRepository).findById(eq(1));
+        verify(playlistService).deletePlaylistById(1);
+        verify(userRepository).findById(1);
     }
 
     /**
@@ -321,7 +321,7 @@ class UserServiceTest {
 
         // Assert
         verify(entityCache).put(eq(-632678125), isA(Object.class));
-        verify(userRepository, atLeast(1)).findById(eq(1));
+        verify(userRepository, atLeast(1)).findById(1);
         verify(userRepository).save(isA(User.class));
         assertNull(actualUpdateUserNameByIdResult.getBody());
         assertEquals(200, actualUpdateUserNameByIdResult.getStatusCodeValue());
@@ -352,7 +352,7 @@ class UserServiceTest {
         // Act and Assert
         assertThrows(BadRequestErrorException.class, () -> userService.updateUserNameById(1, "New Name"));
         verify(entityCache).put(eq(-632678125), isA(Object.class));
-        verify(userRepository, atLeast(1)).findById(eq(1));
+        verify(userRepository, atLeast(1)).findById(1);
         verify(userRepository).save(isA(User.class));
     }
 
@@ -367,7 +367,7 @@ class UserServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> userService.updateUserNameById(1, "New Name"));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).findById(1);
     }
 
     /**
@@ -472,7 +472,7 @@ class UserServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> userService.getUserById(1));
-        verify(entityCache).get(eq(-632678125));
+        verify(entityCache).get(-632678125);
     }
 
     /**
@@ -500,9 +500,9 @@ class UserServiceTest {
         Optional<User> actualUserById = userService.getUserById(1);
 
         // Assert
-        verify(entityCache).get(eq(-632678125));
-        verify(user).setId(eq(1));
-        verify(user).setName(eq("Name"));
+        verify(entityCache).get(-632678125);
+        verify(user).setId(1);
+        verify(user).setName("Name");
         verify(user).setPlaylists(isA(List.class));
         assertTrue(actualUserById.isPresent());
     }
@@ -529,12 +529,12 @@ class UserServiceTest {
         Optional<User> actualUserById = userService.getUserById(1);
 
         // Assert
-        verify(entityCache).get(eq(-632678125));
+        verify(entityCache).get(-632678125);
         verify(entityCache).put(eq(-632678125), isA(Object.class));
-        verify(user).setId(eq(1));
-        verify(user).setName(eq("Name"));
+        verify(user).setId(1);
+        verify(user).setName("Name");
         verify(user).setPlaylists(isA(List.class));
-        verify(userRepository).findById(eq(1));
+        verify(userRepository).findById(1);
         assertTrue(actualUserById.isPresent());
         assertEquals(ofResult, actualUserById);
     }
