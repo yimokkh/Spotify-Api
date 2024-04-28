@@ -65,7 +65,7 @@ class TagServiceTest {
     tagService.postTag(tag2);
 
     // Assert
-    verify(entityCache).put(1, isA(Object.class));
+    verify(entityCache).put(eq(1), isA(Object.class));
     verify(tagRepository).save(isA(Tag.class));
   }
 
@@ -88,7 +88,7 @@ class TagServiceTest {
 
     // Act and Assert
     assertThrows(BadRequestErrorException.class, () -> tagService.postTag(tag2));
-    verify(entityCache).put(1, isA(Object.class));
+    verify(entityCache).put(eq(1), isA(Object.class));
     verify(tagRepository).save(isA(Tag.class));
   }
 
@@ -254,7 +254,7 @@ class TagServiceTest {
     Optional<List<Tag>> actualAllTags = tagService.getAllTags();
 
     // Assert
-    verify(entityCache).put(1, isA(Object.class));
+    verify(entityCache).put(eq(1), isA(Object.class));
     verify(tagRepository).findAll();
     assertTrue(actualAllTags.isPresent());
   }
@@ -306,7 +306,7 @@ class TagServiceTest {
 
     // Act and Assert
     assertThrows(BadRequestErrorException.class, () -> tagService.getAllTags());
-    verify(entityCache).put(1, isA(Object.class));
+    verify(entityCache).put(eq(1), isA(Object.class));
     verify(tagRepository).findAll();
   }
 
