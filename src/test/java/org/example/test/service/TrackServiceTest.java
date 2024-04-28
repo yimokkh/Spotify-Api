@@ -168,9 +168,9 @@ class TrackServiceTest {
         verify(entityCache).put(eq(1), isA(Object.class));
         verify(track).addTag(isA(Tag.class));
         verify(track).getId();
-        verify(track).setArtist(eq("Artist"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("Name"));
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
         verify(track).setPlaylists(isA(Set.class));
         verify(trackRepository).save(isA(Track.class));
     }
@@ -202,8 +202,8 @@ class TrackServiceTest {
 
         // Assert
         verify(entityCache).put(eq(1569182950), isA(Object.class));
-        verify(trackRepository).deleteById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(trackRepository).deleteById(1);
+        verify(trackRepository).findById(1);
         verify(trackRepository).findAll();
     }
 
@@ -233,8 +233,8 @@ class TrackServiceTest {
         // Act and Assert
         assertThrows(BadRequestErrorException.class, () -> trackService.deleteTrackById(1));
         verify(entityCache).put(eq(1569182950), isA(Object.class));
-        verify(trackRepository).deleteById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(trackRepository).deleteById(1);
+        verify(trackRepository).findById(1);
         verify(trackRepository).findAll();
     }
 
@@ -272,12 +272,12 @@ class TrackServiceTest {
         verify(entityCache).put(eq(1569182950), isA(Object.class));
         verify(track).addTag(isA(Tag.class));
         verify(track, atLeast(1)).getTags();
-        verify(track).setArtist(eq("Artist"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("Name"));
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
         verify(track).setPlaylists(isA(Set.class));
-        verify(trackRepository).deleteById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(trackRepository).deleteById(1);
+        verify(trackRepository).findById(1);
         verify(trackRepository).findAll();
     }
 
@@ -292,7 +292,7 @@ class TrackServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> trackService.deleteTrackById(1));
-        verify(trackRepository).findById(eq(1));
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -341,12 +341,12 @@ class TrackServiceTest {
         verify(entityCache).put(eq(1569182950), isA(Object.class));
         verify(track).addTag(isA(Tag.class));
         verify(track, atLeast(1)).getTags();
-        verify(track).setArtist(eq("Artist"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("Name"));
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
         verify(track).setPlaylists(isA(Set.class));
-        verify(trackRepository).deleteById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(trackRepository).deleteById(1);
+        verify(trackRepository).findById(1);
         verify(trackRepository).findAll();
     }
 
@@ -471,9 +471,9 @@ class TrackServiceTest {
         verify(entityCache).put(eq(1), isA(Object.class));
         verify(track).addTag(isA(Tag.class));
         verify(track).getId();
-        verify(track).setArtist(eq("No tracks has been created!"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("No tracks has been created!"));
+        verify(track).setArtist("No tracks has been created!");
+        verify(track).setId(1);
+        verify(track).setName("No tracks has been created!");
         verify(track).setPlaylists(isA(Set.class));
         verify(trackRepository).findAll();
         assertTrue(actualAllTracks.isPresent());
@@ -489,7 +489,7 @@ class TrackServiceTest {
 
         // Act and Assert
         assertThrows(IllegalArgumentException.class, () -> trackService.getTrackById(1));
-        verify(entityCache).get(eq(1799349139));
+        verify(entityCache).get(1799349139);
     }
 
     /**
@@ -532,13 +532,13 @@ class TrackServiceTest {
         Optional<Track> actualTrackById = trackService.getTrackById(1);
 
         // Assert
-        verify(entityCache).get(eq(1799349139));
-        verify(tag).setId(eq(1));
-        verify(tag).setText(eq("Text"));
+        verify(entityCache).get(1799349139);
+        verify(tag).setId(1);
+        verify(tag).setText("Text");
         verify(track).addTag(isA(Tag.class));
-        verify(track).setArtist(eq("Artist"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("Name"));
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
         verify(track).setPlaylists(isA(Set.class));
         assertTrue(actualTrackById.isPresent());
     }
@@ -574,16 +574,16 @@ class TrackServiceTest {
         Optional<Track> actualTrackById = trackService.getTrackById(1);
 
         // Assert
-        verify(entityCache).get(eq(1799349139));
-        verify(entityCache).put(eq(1799349139), isA(Object.class));
-        verify(tag).setId(eq(1));
-        verify(tag).setText(eq("Text"));
+        verify(entityCache).get(1799349139);
+        verify(entityCache).put((1799349139), isA(Object.class));
+        verify(tag).setId(1);
+        verify(tag).setText("Text");
         verify(track).addTag(isA(Tag.class));
-        verify(track).setArtist(eq("Artist"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("Name"));
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
         verify(track).setPlaylists(isA(Set.class));
-        verify(trackRepository).findById(eq(1));
+        verify(trackRepository).findById(1);
         assertTrue(actualTrackById.isPresent());
         assertEquals(ofResult, actualTrackById);
     }
@@ -631,8 +631,8 @@ class TrackServiceTest {
 
         // Assert
         verify(entityCache).put(eq(1799349139), isA(Object.class));
-        verify(tagRepository).findById(eq(1));
-        verify(trackRepository, atLeast(1)).findById(eq(1));
+        verify(tagRepository).findById(1);
+        verify(trackRepository, atLeast(1)).findById(1);
         verify(trackRepository).save(isA(Track.class));
     }
 
@@ -678,8 +678,8 @@ class TrackServiceTest {
         // Act and Assert
         assertThrows(BadRequestErrorException.class, () -> trackService.addTagToTrack(1, 1));
         verify(entityCache).put(eq(1799349139), isA(Object.class));
-        verify(tagRepository).findById(eq(1));
-        verify(trackRepository, atLeast(1)).findById(eq(1));
+        verify(tagRepository).findById(1);
+        verify(trackRepository, atLeast(1)).findById(1);
         verify(trackRepository).save(isA(Track.class));
     }
 
@@ -731,12 +731,12 @@ class TrackServiceTest {
         // Assert
         verify(entityCache).put(eq(1799349139), isA(Object.class));
         verify(track, atLeast(1)).addTag(Mockito.<Tag>any());
-        verify(track).setArtist(eq("Artist"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("Name"));
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
         verify(track).setPlaylists(isA(Set.class));
-        verify(tagRepository).findById(eq(1));
-        verify(trackRepository, atLeast(1)).findById(eq(1));
+        verify(tagRepository).findById(1);
+        verify(trackRepository, atLeast(1)).findById(1);
         verify(trackRepository).save(isA(Track.class));
     }
 
@@ -757,7 +757,7 @@ class TrackServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> trackService.addTagToTrack(1, 1));
-        verify(trackRepository).findById(eq(1));
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -788,12 +788,12 @@ class TrackServiceTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> trackService.addTagToTrack(1, 1));
         verify(track).addTag(isA(Tag.class));
-        verify(track).setArtist(eq("Artist"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("Name"));
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
         verify(track).setPlaylists(isA(Set.class));
-        verify(tagRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(tagRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -823,8 +823,8 @@ class TrackServiceTest {
 
         // Act and Assert
         assertThrows(IllegalArgumentException.class, () -> trackService.removeTagFromTrack(1, 1));
-        verify(tagRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(tagRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -849,8 +849,8 @@ class TrackServiceTest {
 
         // Act and Assert
         assertThrows(BadRequestErrorException.class, () -> trackService.removeTagFromTrack(1, 1));
-        verify(tagRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(tagRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -887,12 +887,12 @@ class TrackServiceTest {
         assertThrows(IllegalArgumentException.class, () -> trackService.removeTagFromTrack(1, 1));
         verify(track).addTag(isA(Tag.class));
         verify(track).getTags();
-        verify(track).setArtist(eq("Artist"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("Name"));
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
         verify(track).setPlaylists(isA(Set.class));
-        verify(tagRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(tagRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -912,7 +912,7 @@ class TrackServiceTest {
 
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> trackService.removeTagFromTrack(1, 1));
-        verify(trackRepository).findById(eq(1));
+        verify(trackRepository).findById(1);
     }
 
     /**
@@ -943,11 +943,11 @@ class TrackServiceTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> trackService.removeTagFromTrack(1, 1));
         verify(track).addTag(isA(Tag.class));
-        verify(track).setArtist(eq("Artist"));
-        verify(track).setId(eq(1));
-        verify(track).setName(eq("Name"));
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
         verify(track).setPlaylists(isA(Set.class));
-        verify(tagRepository).findById(eq(1));
-        verify(trackRepository).findById(eq(1));
+        verify(tagRepository).findById(1);
+        verify(trackRepository).findById(1);
     }
 }
