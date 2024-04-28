@@ -75,7 +75,7 @@ public class TagService {
             tagList.forEach(tag -> cacheMap.put(tag.getId(), tag));
             return Optional.of(tagList);
         } else {
-            throw new ResourceNotFoundException("No tag has been created!");
+            throw new ResourceNotFoundException("No tag has been created! :(");
         }
     }
 
