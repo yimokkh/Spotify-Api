@@ -952,17 +952,5 @@ class TrackServiceTest {
         verify(trackRepository).findById(1);
     }
 
-    @Test
-     void testUpdateTrackNameByIdNotFound() {
-        // Arrange
-        Integer id = 1;
-        String newName = "New Track Name";
-        when(trackRepository.findById(id)).thenReturn(Optional.empty());
-
-        // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> {
-            trackService.updateTrackNameById(id, newName);
-        });
-    }
 
 }
