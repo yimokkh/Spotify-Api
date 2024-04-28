@@ -1,11 +1,13 @@
 package org.example.test.service;
 
+import jakarta.transaction.Transactional;
 import org.example.test.aop.annotation.Logging;
 import org.example.test.cache.EntityCache;
 import org.example.test.entity.User;
 import org.example.test.exception.BadRequestErrorException;
 import org.example.test.exception.ResourceNotFoundException;
 import org.example.test.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,32 @@ public class    UserService {
         this.userRepository = userRepository;
         this.cacheMap = cacheMap;
         this.playlistService = playlistService;
+    }
+
+    @Transactional
+    public ResponseEntity<Object> createUsers(List<User> users) {
+        if (users == null || users.isEmpty()) {
+            throw new ResourceNotFoundException("COUNTRY_NOT_FOUND_MESSAGE");
+        }
+
+        List<String> errors = users.stream()
+                .map(user -> {
+                    try {
+                        createUser(user);
+                        return null;
+                    } catch (Exception e) {
+                        return e.getMessage();
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toList();
+
+        cacheMap.clear();
+        if (!errors.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Errors occurred during bulk creation: " + String.join("   ||||   ", errors));
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     public void createUser(User user) {

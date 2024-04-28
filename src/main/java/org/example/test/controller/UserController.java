@@ -23,6 +23,11 @@ public class UserController {
         userService.createUser(new User(name));
     }
 
+    @PostMapping("/bulk")
+    public ResponseEntity<Object> createUsers(@RequestBody List<User> users) {
+        return userService.createUsers(users);
+    }
+
     @GetMapping()
     public Optional<List<User>> getAllUsers() {
         return userService.getAllUsers();
