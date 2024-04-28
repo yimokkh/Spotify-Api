@@ -65,7 +65,7 @@ class TagServiceTest {
     tagService.postTag(tag2);
 
     // Assert
-    verify(entityCache).put(eq(1), isA(Object.class));
+    verify(entityCache).put(1, isA(Object.class));
     verify(tagRepository).save(isA(Tag.class));
   }
 
@@ -88,7 +88,7 @@ class TagServiceTest {
 
     // Act and Assert
     assertThrows(BadRequestErrorException.class, () -> tagService.postTag(tag2));
-    verify(entityCache).put(eq(1), isA(Object.class));
+    verify(entityCache).put(1, isA(Object.class));
     verify(tagRepository).save(isA(Tag.class));
   }
 
@@ -112,8 +112,8 @@ class TagServiceTest {
 
     // Assert
     verify(entityCache).put(eq(1798262775), isA(Object.class));
-    verify(tagRepository).deleteById(eq(1));
-    verify(tagRepository).findById(eq(1));
+    verify(tagRepository).deleteById(1);
+    verify(tagRepository).findById(1);
     verify(tagRepository).findAll();
   }
 
@@ -136,8 +136,8 @@ class TagServiceTest {
     // Act and Assert
     assertThrows(BadRequestErrorException.class, () -> tagService.deleteTagById(1));
     verify(entityCache).put(eq(1798262775), isA(Object.class));
-    verify(tagRepository).deleteById(eq(1));
-    verify(tagRepository).findById(eq(1));
+    verify(tagRepository).deleteById(1);
+    verify(tagRepository).findById(1);
     verify(tagRepository).findAll();
   }
 
@@ -152,7 +152,7 @@ class TagServiceTest {
 
     // Act and Assert
     assertThrows(ResourceNotFoundException.class, () -> tagService.deleteTagById(1));
-    verify(tagRepository).findById(eq(1));
+    verify(tagRepository).findById(1);
   }
 
   /**
@@ -178,7 +178,7 @@ class TagServiceTest {
 
     // Assert
     verify(entityCache).put(eq(-95474076), isA(Object.class));
-    verify(tagRepository, atLeast(1)).findById(eq(1));
+    verify(tagRepository, atLeast(1)).findById(1);
     verify(tagRepository).save(isA(Tag.class));
   }
 
@@ -204,7 +204,7 @@ class TagServiceTest {
     // Act and Assert
     assertThrows(BadRequestErrorException.class, () -> tagService.updateTagById(1, "New Text"));
     verify(entityCache).put(eq(-95474076), isA(Object.class));
-    verify(tagRepository, atLeast(1)).findById(eq(1));
+    verify(tagRepository, atLeast(1)).findById(1);
     verify(tagRepository).save(isA(Tag.class));
   }
 
@@ -219,7 +219,7 @@ class TagServiceTest {
 
     // Act and Assert
     assertThrows(ResourceNotFoundException.class, () -> tagService.updateTagById(1, "New Text"));
-    verify(tagRepository).findById(eq(1));
+    verify(tagRepository).findById(1);
   }
 
   /**
@@ -254,7 +254,7 @@ class TagServiceTest {
     Optional<List<Tag>> actualAllTags = tagService.getAllTags();
 
     // Assert
-    verify(entityCache).put(eq(1), isA(Object.class));
+    verify(entityCache).put(1, isA(Object.class));
     verify(tagRepository).findAll();
     assertTrue(actualAllTags.isPresent());
   }
@@ -306,7 +306,7 @@ class TagServiceTest {
 
     // Act and Assert
     assertThrows(BadRequestErrorException.class, () -> tagService.getAllTags());
-    verify(entityCache).put(eq(1), isA(Object.class));
+    verify(entityCache).put(1, isA(Object.class));
     verify(tagRepository).findAll();
   }
 
@@ -321,7 +321,7 @@ class TagServiceTest {
 
     // Act and Assert
     assertThrows(ResourceNotFoundException.class, () -> tagService.getTagById(1));
-    verify(entityCache).get(eq(-95474076));
+    verify(entityCache).get(-95474076);
   }
 
   /**
@@ -346,9 +346,9 @@ class TagServiceTest {
     Optional<Tag> actualTagById = tagService.getTagById(1);
 
     // Assert
-    verify(entityCache).get(eq(-95474076));
-    verify(tag).setId(eq(1));
-    verify(tag).setText(eq("Text"));
+    verify(entityCache).get(-95474076);
+    verify(tag).setId(1);
+    verify(tag).setText("Text");
     assertTrue(actualTagById.isPresent());
   }
 
@@ -372,11 +372,11 @@ class TagServiceTest {
     Optional<Tag> actualTagById = tagService.getTagById(1);
 
     // Assert
-    verify(entityCache).get(eq(-95474076));
+    verify(entityCache).get(-95474076);
     verify(entityCache).put(eq(-95474076), isA(Object.class));
-    verify(tag).setId(eq(1));
-    verify(tag).setText(eq("Text"));
-    verify(tagRepository).findById(eq(1));
+    verify(tag).setId(1);
+    verify(tag).setText("Text");
+    verify(tagRepository).findById(1);
     assertTrue(actualTagById.isPresent());
     assertEquals(ofResult, actualTagById);
   }
@@ -393,8 +393,8 @@ class TagServiceTest {
 
     // Act and Assert
     assertThrows(ResourceNotFoundException.class, () -> tagService.getTagById(1));
-    verify(entityCache).get(eq(-95474076));
-    verify(tagRepository).findById(eq(1));
+    verify(entityCache).get(-95474076);
+    verify(tagRepository).findById(1);
   }
 
   /**
@@ -461,7 +461,7 @@ class TagServiceTest {
 
     // Assert
     verify(entityCache).put(eq(-95474076), isA(Object.class));
-    verify(tagRepository).findById(eq(1));
+    verify(tagRepository).findById(1);
   }
 
   /**
@@ -481,7 +481,7 @@ class TagServiceTest {
     // Act and Assert
     assertThrows(BadRequestErrorException.class, () -> tagService.updateCacheForTagById(1));
     verify(entityCache).put(eq(-95474076), isA(Object.class));
-    verify(tagRepository).findById(eq(1));
+    verify(tagRepository).findById(1);
   }
 
   /**
@@ -497,6 +497,6 @@ class TagServiceTest {
     tagService.updateCacheForTagById(1);
 
     // Assert
-    verify(tagRepository).findById(eq(1));
+    verify(tagRepository).findById(1);
   }
 }
