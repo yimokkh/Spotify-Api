@@ -1,157 +1,502 @@
 package org.example.test.service;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import org.example.test.cache.EntityCache;
 import org.example.test.entity.Tag;
 import org.example.test.exception.BadRequestErrorException;
 import org.example.test.exception.ResourceNotFoundException;
 import org.example.test.repository.TagRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.aot.DisabledInAotMode;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.*;
+@ContextConfiguration(classes = {TagService.class})
+@ExtendWith(SpringExtension.class)
+@DisabledInAotMode
+class TagServiceTest {
+  @MockBean
+  private EntityCache<Integer, Object> entityCache;
 
-public class TagServiceTest {
+  @MockBean
+  private TagRepository tagRepository;
 
-    @Mock
-    private TagRepository tagRepository;
+  @Autowired
+  private TagService tagService;
 
-    @InjectMocks
-    private TagService tagService;
+  @MockBean
+  private TrackService trackService;
 
-    @InjectMocks
-    private TrackService trackService;
+  /**
+   * Method under test: {@link TagService#postTag(Tag)}
+   */
+  @Test
+  void testPostTag() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("Text");
+    when(tagRepository.save(Mockito.<Tag>any())).thenReturn(tag);
+    doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
 
-    @Mock
-    private Map<Integer, Tag> cacheMap;
+    Tag tag2 = new Tag();
+    tag2.setId(1);
+    tag2.setText("Text");
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
+    // Act
+    tagService.postTag(tag2);
 
-    @Test(expected = BadRequestErrorException.class)
-    public void testPostTagThrowsException() {
-        // Arrange
-        Tag tag = new Tag();
-        tag.setText("Existing Tag");
-        when(tagRepository.save(any(Tag.class))).thenThrow(new BadRequestErrorException("tag already exists"));
+    // Assert
+    verify(entityCache).put(eq(1), isA(Object.class));
+    verify(tagRepository).save(isA(Tag.class));
+  }
 
-        // Act
-        tagService.postTag(tag);
-    }
+  /**
+   * Method under test: {@link TagService#postTag(Tag)}
+   */
+  @Test
+  void testPostTag2() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("Text");
+    when(tagRepository.save(Mockito.<Tag>any())).thenReturn(tag);
+    doThrow(new BadRequestErrorException("An error occurred")).when(entityCache)
+        .put(Mockito.<Integer>any(), Mockito.<Object>any());
 
-    @Test
-    public void testPostTagWithDuplicateText() {
-        // Arrange
-        Tag tag = new Tag("Duplicate Tag");
-        when(tagRepository.save(any(Tag.class))).thenThrow(new DataIntegrityViolationException("Tag with text already exists"));
+    Tag tag2 = new Tag();
+    tag2.setId(1);
+    tag2.setText("Text");
 
-        // Act & Assert
-        assertThrows(BadRequestErrorException.class, () -> {
-            tagService.postTag(tag);
-        });
-    }
+    // Act and Assert
+    assertThrows(BadRequestErrorException.class, () -> tagService.postTag(tag2));
+    verify(entityCache).put(eq(1), isA(Object.class));
+    verify(tagRepository).save(isA(Tag.class));
+  }
 
-    @Test
-    public void testPostTagWithCachePutFailure() {
-        // Arrange
-        Tag tag = new Tag("Valid Tag");
-        when(tagRepository.save(any(Tag.class))).thenReturn(tag);
-        doThrow(new RuntimeException("Failed to put in cache")).when(cacheMap).put(tag.getId(), tag);
+  /**
+   * Method under test: {@link TagService#deleteTagById(Integer)}
+   */
+  @Test
+  void testDeleteTagById() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("Text");
+    Optional<Tag> ofResult = Optional.of(tag);
+    when(tagRepository.findAll()).thenReturn(new ArrayList<>());
+    doNothing().when(tagRepository).deleteById(Mockito.<Integer>any());
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+    doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
 
-        // Act & Assert
-        assertThrows(RuntimeException.class, () -> {
-            tagService.postTag(tag);
-        });
-    }
+    // Act
+    tagService.deleteTagById(1);
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void testDeleteTagByIdNotFound() {
-        // Arrange
-        Integer id = 1;
-        when(tagRepository.findById(id)).thenReturn(Optional.empty());
+    // Assert
+    verify(entityCache).put(eq(1798262775), isA(Object.class));
+    verify(tagRepository).deleteById(eq(1));
+    verify(tagRepository).findById(eq(1));
+    verify(tagRepository).findAll();
+  }
 
-        // Act
-        tagService.deleteTagById(id);
-    }
+  /**
+   * Method under test: {@link TagService#deleteTagById(Integer)}
+   */
+  @Test
+  void testDeleteTagById2() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("Text");
+    Optional<Tag> ofResult = Optional.of(tag);
+    when(tagRepository.findAll()).thenReturn(new ArrayList<>());
+    doNothing().when(tagRepository).deleteById(Mockito.<Integer>any());
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+    doThrow(new BadRequestErrorException("An error occurred")).when(entityCache)
+        .put(Mockito.<Integer>any(), Mockito.<Object>any());
 
-    @Test
-    public void testDeleteTagByIdWithNonExistentId() {
-        // Arrange
-        Integer nonExistentId = 999;
-        when(tagRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+    // Act and Assert
+    assertThrows(BadRequestErrorException.class, () -> tagService.deleteTagById(1));
+    verify(entityCache).put(eq(1798262775), isA(Object.class));
+    verify(tagRepository).deleteById(eq(1));
+    verify(tagRepository).findById(eq(1));
+    verify(tagRepository).findAll();
+  }
 
-        // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> {
-            tagService.deleteTagById(nonExistentId);
-        });
-    }
+  /**
+   * Method under test: {@link TagService#deleteTagById(Integer)}
+   */
+  @Test
+  void testDeleteTagById3() {
+    // Arrange
+    Optional<Tag> emptyResult = Optional.empty();
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(emptyResult);
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void testUpdateTagByIdNotFound() {
-        // Arrange
-        Integer id = 1;
-        String newText = "Updated Text";
-        when(tagRepository.findById(id)).thenReturn(Optional.empty());
+    // Act and Assert
+    assertThrows(ResourceNotFoundException.class, () -> tagService.deleteTagById(1));
+    verify(tagRepository).findById(eq(1));
+  }
 
-        // Act
-        tagService.updateTagById(id, newText);
-    }
+  /**
+   * Method under test: {@link TagService#updateTagById(Integer, String)}
+   */
+  @Test
+  void testUpdateTagById() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("Text");
+    Optional<Tag> ofResult = Optional.of(tag);
 
-    @Test
-    public void testUpdateTagByIdRepositoryError() {
-        // Arrange
-        Integer id = 1;
-        String newText = "Valid Text";
-        when(tagRepository.findById(id)).thenReturn(Optional.of(new Tag()));
-        doThrow(new DataAccessException("...") {}).when(tagRepository).save(any(Tag.class));
+    Tag tag2 = new Tag();
+    tag2.setId(1);
+    tag2.setText("Text");
+    when(tagRepository.save(Mockito.<Tag>any())).thenReturn(tag2);
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+    doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
 
-        // Act & Assert
-        assertThrows(DataAccessException.class, () -> {
-            tagService.updateTagById(id, newText);
-        });
-    }
+    // Act
+    tagService.updateTagById(1, "New Text");
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void testGetAllTagsWhenNoTagsExist() {
-        // Arrange
-        when(tagRepository.findAll()).thenReturn(Collections.emptyList());
+    // Assert
+    verify(entityCache).put(eq(-95474076), isA(Object.class));
+    verify(tagRepository, atLeast(1)).findById(eq(1));
+    verify(tagRepository).save(isA(Tag.class));
+  }
 
-        // Act
-        tagService.getAllTags();
-    }
+  /**
+   * Method under test: {@link TagService#updateTagById(Integer, String)}
+   */
+  @Test
+  void testUpdateTagById2() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("Text");
+    Optional<Tag> ofResult = Optional.of(tag);
 
-    @Test
-    public void testGetAllTagsRepositoryError() {
-        // Arrange
-        when(tagRepository.findAll()).thenThrow(new DataAccessException("...") {});
+    Tag tag2 = new Tag();
+    tag2.setId(1);
+    tag2.setText("Text");
+    when(tagRepository.save(Mockito.<Tag>any())).thenReturn(tag2);
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+    doThrow(new BadRequestErrorException("An error occurred")).when(entityCache)
+        .put(Mockito.<Integer>any(), Mockito.<Object>any());
 
-        // Act & Assert
-        assertThrows(DataAccessException.class, () -> {
-            tagService.getAllTags();
-        });
-    }
+    // Act and Assert
+    assertThrows(BadRequestErrorException.class, () -> tagService.updateTagById(1, "New Text"));
+    verify(entityCache).put(eq(-95474076), isA(Object.class));
+    verify(tagRepository, atLeast(1)).findById(eq(1));
+    verify(tagRepository).save(isA(Tag.class));
+  }
 
-    @Test
-    public void testUpdateCacheForTagByIdWhenTagNotFound() {
-        // Arrange
-        Integer id = 1;
-        int hashCode = Objects.hash("tag_by_id", id);
-        when(tagRepository.findById(id)).thenReturn(Optional.empty());
+  /**
+   * Method under test: {@link TagService#updateTagById(Integer, String)}
+   */
+  @Test
+  void testUpdateTagById3() {
+    // Arrange
+    Optional<Tag> emptyResult = Optional.empty();
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(emptyResult);
 
-        // Act
-        tagService.updateCacheForTagById(id);
+    // Act and Assert
+    assertThrows(ResourceNotFoundException.class, () -> tagService.updateTagById(1, "New Text"));
+    verify(tagRepository).findById(eq(1));
+  }
 
-        // Assert
-        verify(cacheMap, never()).put(eq(hashCode), any());
-    }
+  /**
+   * Method under test: {@link TagService#getAllTags()}
+   */
+  @Test
+  void testGetAllTags() {
+    // Arrange
+    when(tagRepository.findAll()).thenReturn(new ArrayList<>());
 
+    // Act and Assert
+    assertThrows(ResourceNotFoundException.class, () -> tagService.getAllTags());
+    verify(tagRepository).findAll();
+  }
+
+  /**
+   * Method under test: {@link TagService#getAllTags()}
+   */
+  @Test
+  void testGetAllTags2() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("No tag has been created!");
+
+    ArrayList<Tag> tagList = new ArrayList<>();
+    tagList.add(tag);
+    when(tagRepository.findAll()).thenReturn(tagList);
+    doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+    // Act
+    Optional<List<Tag>> actualAllTags = tagService.getAllTags();
+
+    // Assert
+    verify(entityCache).put(eq(1), isA(Object.class));
+    verify(tagRepository).findAll();
+    assertTrue(actualAllTags.isPresent());
+  }
+
+  /**
+   * Method under test: {@link TagService#getAllTags()}
+   */
+  @Test
+  void testGetAllTags3() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("No tag has been created!");
+
+    Tag tag2 = new Tag();
+    tag2.setId(2);
+    tag2.setText("42");
+
+    ArrayList<Tag> tagList = new ArrayList<>();
+    tagList.add(tag2);
+    tagList.add(tag);
+    when(tagRepository.findAll()).thenReturn(tagList);
+    doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+    // Act
+    Optional<List<Tag>> actualAllTags = tagService.getAllTags();
+
+    // Assert
+    verify(entityCache, atLeast(1)).put(Mockito.<Integer>any(), Mockito.<Object>any());
+    verify(tagRepository).findAll();
+    assertTrue(actualAllTags.isPresent());
+  }
+
+  /**
+   * Method under test: {@link TagService#getAllTags()}
+   */
+  @Test
+  void testGetAllTags4() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("No tag has been created!");
+
+    ArrayList<Tag> tagList = new ArrayList<>();
+    tagList.add(tag);
+    when(tagRepository.findAll()).thenReturn(tagList);
+    doThrow(new BadRequestErrorException("An error occurred")).when(entityCache)
+        .put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+    // Act and Assert
+    assertThrows(BadRequestErrorException.class, () -> tagService.getAllTags());
+    verify(entityCache).put(eq(1), isA(Object.class));
+    verify(tagRepository).findAll();
+  }
+
+  /**
+   * Method under test: {@link TagService#getTagById(Integer)}
+   */
+  @Test
+  void testGetTagById() {
+    // Arrange
+    when(entityCache.get(Mockito.<Integer>any())).thenThrow(
+        new ResourceNotFoundException("An error occurred"));
+
+    // Act and Assert
+    assertThrows(ResourceNotFoundException.class, () -> tagService.getTagById(1));
+    verify(entityCache).get(eq(-95474076));
+  }
+
+  /**
+   * Method under test: {@link TagService#getTagById(Integer)}
+   */
+  @Test
+  void testGetTagById2() {
+    // Arrange
+    Tag tag = mock(Tag.class);
+    doNothing().when(tag).setId(Mockito.<Integer>any());
+    doNothing().when(tag).setText(Mockito.<String>any());
+    tag.setId(1);
+    tag.setText("Text");
+    Optional.of(tag);
+
+    Tag tag2 = new Tag();
+    tag2.setId(1);
+    tag2.setText("tag_by_id");
+    when(entityCache.get(Mockito.<Integer>any())).thenReturn(tag2);
+
+    // Act
+    Optional<Tag> actualTagById = tagService.getTagById(1);
+
+    // Assert
+    verify(entityCache).get(eq(-95474076));
+    verify(tag).setId(eq(1));
+    verify(tag).setText(eq("Text"));
+    assertTrue(actualTagById.isPresent());
+  }
+
+  /**
+   * Method under test: {@link TagService#getTagById(Integer)}
+   */
+  @Test
+  void testGetTagById3() {
+    // Arrange
+    Tag tag = mock(Tag.class);
+    doNothing().when(tag).setId(Mockito.<Integer>any());
+    doNothing().when(tag).setText(Mockito.<String>any());
+    tag.setId(1);
+    tag.setText("Text");
+    Optional<Tag> ofResult = Optional.of(tag);
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+    when(entityCache.get(Mockito.<Integer>any())).thenReturn(null);
+    doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+    // Act
+    Optional<Tag> actualTagById = tagService.getTagById(1);
+
+    // Assert
+    verify(entityCache).get(eq(-95474076));
+    verify(entityCache).put(eq(-95474076), isA(Object.class));
+    verify(tag).setId(eq(1));
+    verify(tag).setText(eq("Text"));
+    verify(tagRepository).findById(eq(1));
+    assertTrue(actualTagById.isPresent());
+    assertEquals(ofResult, actualTagById);
+  }
+
+  /**
+   * Method under test: {@link TagService#getTagById(Integer)}
+   */
+  @Test
+  void testGetTagById4() {
+    // Arrange
+    Optional<Tag> emptyResult = Optional.empty();
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(emptyResult);
+    when(entityCache.get(Mockito.<Integer>any())).thenReturn(null);
+
+    // Act and Assert
+    assertThrows(ResourceNotFoundException.class, () -> tagService.getTagById(1));
+    verify(entityCache).get(eq(-95474076));
+    verify(tagRepository).findById(eq(1));
+  }
+
+  /**
+   * Method under test: {@link TagService#updateCacheForAllTags()}
+   */
+  @Test
+  void testUpdateCacheForAllTags() {
+    // Arrange
+    when(tagRepository.findAll()).thenReturn(new ArrayList<>());
+    doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+    // Act
+    tagService.updateCacheForAllTags();
+
+    // Assert that nothing has changed
+    verify(entityCache).put(eq(1798262775), isA(Object.class));
+    verify(tagRepository).findAll();
+  }
+
+  /**
+   * Method under test: {@link TagService#updateCacheForAllTags()}
+   */
+  @Test
+  void testUpdateCacheForAllTags2() {
+    // Arrange
+    when(tagRepository.findAll()).thenReturn(new ArrayList<>());
+    doThrow(new BadRequestErrorException("An error occurred")).when(entityCache)
+        .put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+    // Act and Assert
+    assertThrows(BadRequestErrorException.class, () -> tagService.updateCacheForAllTags());
+    verify(entityCache).put(eq(1798262775), isA(Object.class));
+    verify(tagRepository).findAll();
+  }
+
+  /**
+   * Method under test: {@link TagService#updateCacheForAllTags()}
+   */
+  @Test
+  void testUpdateCacheForAllTags3() {
+    // Arrange
+    when(tagRepository.findAll()).thenThrow(new BadRequestErrorException("An error occurred"));
+
+    // Act and Assert
+    assertThrows(BadRequestErrorException.class, () -> tagService.updateCacheForAllTags());
+    verify(tagRepository).findAll();
+  }
+
+  /**
+   * Method under test: {@link TagService#updateCacheForTagById(Integer)}
+   */
+  @Test
+  void testUpdateCacheForTagById() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("Text");
+    Optional<Tag> ofResult = Optional.of(tag);
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+    doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+    // Act
+    tagService.updateCacheForTagById(1);
+
+    // Assert
+    verify(entityCache).put(eq(-95474076), isA(Object.class));
+    verify(tagRepository).findById(eq(1));
+  }
+
+  /**
+   * Method under test: {@link TagService#updateCacheForTagById(Integer)}
+   */
+  @Test
+  void testUpdateCacheForTagById2() {
+    // Arrange
+    Tag tag = new Tag();
+    tag.setId(1);
+    tag.setText("Text");
+    Optional<Tag> ofResult = Optional.of(tag);
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+    doThrow(new BadRequestErrorException("An error occurred")).when(entityCache)
+        .put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+    // Act and Assert
+    assertThrows(BadRequestErrorException.class, () -> tagService.updateCacheForTagById(1));
+    verify(entityCache).put(eq(-95474076), isA(Object.class));
+    verify(tagRepository).findById(eq(1));
+  }
+
+  /**
+   * Method under test: {@link TagService#updateCacheForTagById(Integer)}
+   */
+  @Test
+  void testUpdateCacheForTagById3() {
+    // Arrange
+    Optional<Tag> emptyResult = Optional.empty();
+    when(tagRepository.findById(Mockito.<Integer>any())).thenReturn(emptyResult);
+
+    // Act
+    tagService.updateCacheForTagById(1);
+
+    // Assert
+    verify(tagRepository).findById(eq(1));
+  }
 }
-
