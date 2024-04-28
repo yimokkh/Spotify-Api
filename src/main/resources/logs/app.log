@@ -1,0 +1,50 @@
+17:41:13.494 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+17:41:13.554 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 60 ms with message: No tracks has been created!
+17:41:17.952 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postTrack() with args: [org.example.test.entity.Track@531c7c1e]
+17:41:17.988 INFO  o.e.test.aop.aspect.LoggingAspect - Method postTrack returned value: null in 36 ms
+17:41:19.629 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postTag() with args: [org.example.test.entity.Tag@334880a3]
+17:41:19.641 INFO  o.e.test.aop.aspect.LoggingAspect - Method postTag returned value: null in 11 ms
+17:41:21.371 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTagToTrack() with args: [1, 1]
+17:41:21.405 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTagToTrack returned value: null in 34 ms
+17:41:28.345 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTagToTrack() with args: [1, 1]
+17:41:28.355 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTagToTrack returned value: null in 9 ms
+17:41:29.053 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTagToTrack() with args: [1, 1]
+17:41:29.061 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTagToTrack returned value: null in 8 ms
+17:41:29.712 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTagToTrack() with args: [1, 1]
+17:41:29.720 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTagToTrack returned value: null in 8 ms
+17:41:30.979 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTagToTrack() with args: [1, 1]
+17:41:30.987 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTagToTrack returned value: null in 8 ms
+17:41:34.645 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+17:41:34.650 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@17362da5]] in 5 ms
+17:41:37.510 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTags() with args: []
+17:41:37.514 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTags returned value: Optional[[org.example.test.entity.Tag@56138c7f]] in 4 ms
+17:41:41.681 INFO  o.e.test.aop.aspect.LoggingAspect - Called method createUser() with args: [org.example.test.entity.User@1b3ad8e0]
+17:41:41.692 INFO  o.e.test.aop.aspect.LoggingAspect - Method createUser returned value: null in 11 ms
+17:41:43.376 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postPlaylist() with args: [1, pla1]
+17:41:43.399 INFO  o.e.test.aop.aspect.LoggingAspect - Method postPlaylist returned value: null in 23 ms
+17:41:45.230 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTrackToPlaylist() with args: [1, 1]
+17:41:45.241 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTrackToPlaylist returned value: null in 11 ms
+17:41:47.407 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+17:41:47.411 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@5039fffd]] in 4 ms
+17:42:04.738 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postTrack() with args: [org.example.test.entity.Track@26ffa5a7]
+17:42:04.750 INFO  o.e.test.aop.aspect.LoggingAspect - Method postTrack returned value: null in 12 ms
+17:42:11.144 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postTag() with args: [org.example.test.entity.Tag@681a0049]
+17:42:11.149 INFO  o.e.test.aop.aspect.LoggingAspect - Method postTag returned value: null in 5 ms
+17:42:16.920 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTrackToPlaylist() with args: [1, 2]
+17:42:16.936 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTrackToPlaylist returned value: null in 16 ms
+17:42:22.910 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTagToTrack() with args: [2, 1]
+17:42:22.928 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTagToTrack returned value: null in 18 ms
+17:42:24.150 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTagToTrack() with args: [2, 2]
+17:42:24.165 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTagToTrack returned value: null in 15 ms
+17:42:26.428 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+17:42:26.432 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@20182966, org.example.test.entity.Track@2480330c]] in 3 ms
+17:42:42.139 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTags() with args: []
+17:42:42.142 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTags returned value: Optional[[org.example.test.entity.Tag@2733657b, org.example.test.entity.Tag@52a15037]] in 3 ms
+17:42:53.962 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+17:42:53.965 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@dacb1fa]] in 3 ms
+17:43:06.257 INFO  o.e.test.aop.aspect.LoggingAspect - Called method deleteTrackById() with args: [1]
+17:43:06.275 INFO  o.e.test.aop.aspect.LoggingAspect - Method deleteTrackById returned value: null in 18 ms
+17:43:07.174 INFO  o.e.test.aop.aspect.LoggingAspect - Called method deleteTrackById() with args: [1]
+17:43:07.177 INFO  o.e.test.aop.aspect.LoggingAspect - Method deleteTrackById() failed in 2 ms with message: Track not found!
+17:43:11.094 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+17:43:11.097 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@5939b10e]] in 3 ms

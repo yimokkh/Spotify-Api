@@ -2,10 +2,13 @@ package org.example.test.controller;
 
 
 import org.example.test.entity.Tag;
+import org.example.test.entity.Track;
+import org.example.test.entity.User;
 import org.example.test.service.TagService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tags")
@@ -17,19 +20,18 @@ public class TagController {
     }
 
     @GetMapping()
-    public List<Tag> getAllTags() {
+    public Optional<List<Tag>> getAllTags() {
         return tagService.getAllTags();
     }
 
     @GetMapping("/{id}")
-    public Tag getTagById(@PathVariable Integer id) {
+    public Optional<Tag> getTagById(@PathVariable Integer id) {
         return tagService.getTagById(id);
     }
 
     @PostMapping()
-    public void postTag(@RequestParam String text,
-                        @RequestParam String track) {
-        tagService.postTag(new Tag(text, track));
+    public void postTag(@RequestParam String text) {
+        tagService.postTag(new Tag(text));
     }
 
     @DeleteMapping("/{id}")

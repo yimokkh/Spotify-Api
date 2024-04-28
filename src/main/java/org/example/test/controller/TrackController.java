@@ -44,4 +44,14 @@ public class TrackController {
                                                       @RequestParam String newName) {
         return trackService.updateTrackNameById(id, newName);
     }
+
+    @PostMapping("/{trackId}/tags/{tagId}")
+    public void addTagToTrack(@PathVariable Integer trackId, @PathVariable Integer tagId) {
+        trackService.addTagToTrack(trackId, tagId);
+    }
+
+    @DeleteMapping("/{trackId}/tags/{tagId}")
+    public void removeTagFromTrack(@PathVariable Integer trackId, @PathVariable Integer tagId) {
+        trackService.removeTagFromTrack(trackId, tagId);
+    }
 }

@@ -2,18 +2,25 @@ package org.example.test.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Track {
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
+    @Getter
+    @Setter
     private String name;
 
+    @Getter
+    @Setter
     private String artist;
 
     public Track(String name, String artist) {
@@ -21,6 +28,8 @@ public class Track {
         this.artist = artist;
     }
 
+    @Setter
+    @Getter
     @JsonIgnoreProperties({"tracks"})
     @ManyToMany()
     @JoinTable(name = "playlists_tracks",
@@ -28,44 +37,26 @@ public class Track {
             inverseJoinColumns = { @JoinColumn(name = "track_id") })
     private Set<Playlist> playlists = new HashSet<>();
 
+    @JsonIgnoreProperties({"tracks"})
+    @ManyToMany(mappedBy = "tracks")
+    private List<Tag> tags = new ArrayList<>();
+
     public Track() {
-
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public Set<Playlist> getPlaylists() {
-        return playlists;
-    }
-
-    public void setPlaylists(Set<Playlist> playlists) {
-        this.playlists = playlists;
+    public void removeTag(Tag tag) {
+        this.tags.remove(tag);
     }
 
     public void removePlaylist(Playlist playlist) {
         playlists.remove(playlist);
     }
 
+    public List<Tag> getTags() {
+        return tags;
+    }
 }

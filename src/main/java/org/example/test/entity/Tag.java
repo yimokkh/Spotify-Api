@@ -1,50 +1,40 @@
 package org.example.test.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
 @Entity
 public class Tag {
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String track;
 
+    @Setter
+    @Column(unique = true)
     private String text;
 
-    public Tag(String text, String track) {
+    public Tag(String text) {
         this.text = text;
-        this.track = track;
     }
 
     public Tag() {
 
     }
 
-    public Integer getId() {
-        return id;
-    }
+    @Getter
+    @JsonIgnoreProperties({"tags", "playlists"})
 
-    public String getText() {
-        return text;
-    }
-
-    public String getTrackForTag() {
-        return track;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setTrackForTag(String trackName) {
-        this.track = trackName;
-    }
+    @ManyToMany()
+    @JoinTable(name = "tracks_tags",
+            joinColumns = { @JoinColumn(name = "track_id") },
+            inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+    private Set<Track> tracks = new HashSet<>();
 }
