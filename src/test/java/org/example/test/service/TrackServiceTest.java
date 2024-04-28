@@ -575,7 +575,7 @@ class TrackServiceTest {
 
         // Assert
         verify(entityCache).get(1799349139);
-        verify(entityCache).put((1799349139), isA(Object.class));
+        verify(entityCache).put(eq(1799349139), isA(Object.class));
         verify(tag).setId(1);
         verify(tag).setText("Text");
         verify(track).addTag(isA(Tag.class));

@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = {ExternalApiService.class})
 @ExtendWith(SpringExtension.class)
 @DisabledInAotMode
-class ExternalApiServiceDiffblueTest {
+class ExternalApiServiceTest {
     @Autowired
     private ExternalApiService externalApiService;
 

@@ -2,7 +2,6 @@ package org.example.test.service;
 
 import org.example.test.aop.annotation.Logging;
 import org.example.test.cache.EntityCache;
-import org.example.test.entity.Playlist;
 import org.example.test.entity.Tag;
 import org.example.test.entity.Track;
 import org.example.test.exception.BadRequestErrorException;
