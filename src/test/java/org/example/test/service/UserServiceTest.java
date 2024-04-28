@@ -52,11 +52,14 @@ class UserServiceTest {
   /**
    * Method under test: {@link UserService#createUsers(List)}
    */
+
   @Test
   void testCreateUsers() {
-    // Arrange, Act and Assert
-    assertThrows(ResourceNotFoundException.class, () -> userService.createUsers(new ArrayList<>()));
+    ArrayList<User> arrayList = new ArrayList<>();
+    assertThrows(ResourceNotFoundException.class,
+            () -> userService.createUsers(arrayList));
   }
+
 
   /**
    * Method under test: {@link UserService#createUsers(List)}
