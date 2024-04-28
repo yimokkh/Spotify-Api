@@ -9,7 +9,7 @@ import java.util.*;
 
 @Getter
 @Entity
-public class Track{
+public class Track {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
