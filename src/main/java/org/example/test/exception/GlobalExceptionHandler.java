@@ -61,5 +61,4 @@ public class GlobalExceptionHandler {
                 new ExceptionMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage()),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }

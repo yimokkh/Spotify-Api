@@ -7,19 +7,17 @@ import lombok.Setter;
 
 import java.util.*;
 
+@Getter
 @Entity
-public class Track {
-    @Getter
+public class Track{
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
-    @Getter
     @Setter
     private String name;
 
-    @Getter
     @Setter
     private String artist;
 
@@ -29,7 +27,6 @@ public class Track {
     }
 
     @Setter
-    @Getter
     @JsonIgnoreProperties({"tracks"})
     @ManyToMany()
     @JoinTable(name = "playlists_tracks",
@@ -56,7 +53,4 @@ public class Track {
         playlists.remove(playlist);
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
 }

@@ -12,11 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import org.example.test.cache.EntityCache;
 import org.example.test.entity.Playlist;
@@ -28,9 +24,11 @@ import org.example.test.repository.TagRepository;
 import org.example.test.repository.TrackRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -50,6 +48,9 @@ class TrackServiceTest {
 
     @Autowired
     private TrackService trackService;
+
+    @Mock
+    private Map<Integer, Tag> cacheMap;
 
     /**
      * Method under test: {@link TrackService#postTrack(Track)}
@@ -950,4 +951,18 @@ class TrackServiceTest {
         verify(tagRepository).findById(1);
         verify(trackRepository).findById(1);
     }
+
+    @Test
+     void testUpdateTrackNameByIdNotFound() {
+        // Arrange
+        Integer id = 1;
+        String newName = "New Track Name";
+        when(trackRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(ResourceNotFoundException.class, () -> {
+            trackService.updateTrackNameById(id, newName);
+        });
+    }
+
 }

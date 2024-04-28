@@ -37,4 +37,5 @@ public class Tag {
             joinColumns = { @JoinColumn(name = "track_id") },
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     private Set<Track> tracks = new HashSet<>();
+
 }

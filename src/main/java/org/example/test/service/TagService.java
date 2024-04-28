@@ -93,14 +93,14 @@ public class TagService {
         }
     }
 
-    private void updateCacheForAllTags() {
+    void updateCacheForAllTags() {
         String cacheKey = "all_tags";
         Integer hashCode = cacheKey.hashCode();
         List<Tag> tagList = tagRepository.findAll();
         cacheMap.put(hashCode, tagList);
     }
 
-    private void updateCacheForTagById(Integer id) {
+    void updateCacheForTagById(Integer id) {
         int hashCode = Objects.hash("tag_by_id", id);
         Optional<Tag> tagOptional = tagRepository.findById(id);
         tagOptional.ifPresent(tag -> cacheMap.put(hashCode, tag));
