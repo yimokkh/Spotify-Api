@@ -1,6 +1,7 @@
 package org.example.test.controller;
 
 import org.example.test.entity.Track;
+import org.example.test.service.RequestCounterService;
 import org.example.test.service.TrackService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,44 +15,54 @@ public class TrackController {
 
     private final TrackService trackService;
 
-    public TrackController(TrackService trackService) {
+    private final RequestCounterService counterService;
+
+    public TrackController(TrackService trackService, RequestCounterService counterService) {
         this.trackService = trackService;
+        this.counterService = counterService;
     }
 
     @GetMapping()
     public Optional<List<Track>> getAllTracks() {
+        counterService.requestIncrement();
         return trackService.getAllTracks();
     }
 
     @GetMapping("/{id}")
     public Optional<Track> getTrackById(@PathVariable Integer id) {
+        counterService.requestIncrement();
         return trackService.getTrackById(id);
     }
 
     @PostMapping()
     public void postTrack(@RequestParam String name,
                           @RequestParam String artist) {
+        counterService.requestIncrement();
         trackService.postTrack(new Track(name, artist));
     }
 
     @DeleteMapping("/{id}")
     public void deleteTrackById(@PathVariable Integer id) {
+        counterService.requestIncrement();
         trackService.deleteTrackById(id);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateTrackNameById(@PathVariable Integer id,
                                                       @RequestParam String newName) {
+        counterService.requestIncrement();
         return trackService.updateTrackNameById(id, newName);
     }
 
     @PostMapping("/{trackId}/tags/{tagId}")
     public void addTagToTrack(@PathVariable Integer trackId, @PathVariable Integer tagId) {
+        counterService.requestIncrement();
         trackService.addTagToTrack(trackId, tagId);
     }
 
     @DeleteMapping("/{trackId}/tags/{tagId}")
     public void removeTagFromTrack(@PathVariable Integer trackId, @PathVariable Integer tagId) {
+        counterService.requestIncrement();
         trackService.removeTagFromTrack(trackId, tagId);
     }
 }

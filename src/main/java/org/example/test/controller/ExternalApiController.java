@@ -13,17 +13,23 @@ public class ExternalApiController {
 
     private final ExternalApiService externalApiService;
 
-    public ExternalApiController(ExternalApiService externalApiService) {
+    private final RequestCounterService counterService;
+
+    public ExternalApiController(ExternalApiService externalApiService, RequestCounterService counterService) {
+        counterService.requestIncrement();
         this.externalApiService = externalApiService;
+        this.counterService = counterService;
     }
 
     @GetMapping("/search/artists")
     public ExternalApiResponseArtist getArtistByName(@RequestParam String name)  {
+        counterService.requestIncrement();
         return externalApiService.getArtistByName(new ExternalApiRequest(name));
     }
 
     @GetMapping("/search/tracks")
     public ExternalApiResponseTrack getTrackByName(@RequestParam String name)  {
+        counterService.requestIncrement();
         return externalApiService.getTrackByName(new ExternalApiRequest(name));
     }
 
