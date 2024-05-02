@@ -4,9 +4,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * Service class for counting requests.
- */
 @Service
 @NoArgsConstructor
 public class RequestCounterService {

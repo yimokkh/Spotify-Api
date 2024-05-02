@@ -1,6 +1,0 @@
-00:34:56.161 INFO  o.e.test.aop.aspect.LoggingAspect - Called method createUser() with args: [org.example.test.entity.User@1bafcff7]
-00:34:56.244 INFO  o.e.test.aop.aspect.LoggingAspect - Method createUser returned value: null in 83 ms
-00:35:24.460 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postTrack() with args: [org.example.test.entity.Track@40edec4a]
-00:35:24.476 INFO  o.e.test.aop.aspect.LoggingAspect - Method postTrack returned value: null in 16 ms
-00:35:35.555 INFO  o.e.test.aop.aspect.LoggingAspect - Called method createUsers() with args: [[org.example.test.entity.User@37888218, org.example.test.entity.User@3a6d5b11]]
-00:35:35.559 INFO  o.e.test.aop.aspect.LoggingAspect - Method createUsers returned value: <200 OK OK,[org.example.test.entity.User@37888218, org.example.test.entity.User@3a6d5b11],[]> in 3 ms
