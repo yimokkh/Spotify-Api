@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.1.106:5173/", "*"},
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE},
+        allowedHeaders = {"Authorization", "Content-Type"})
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -29,9 +32,9 @@ public class UserController {
     }
 
     @PostMapping()
-    public void createUser(@RequestParam String name) {
+    public User createUser(@RequestParam String name) {
         counterService.requestIncrement();
-        userService.createUser(new User(name));
+        return userService.createUser(new User(name));
     }
 
     @PostMapping("/bulk")

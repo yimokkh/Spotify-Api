@@ -1,6 +1,8 @@
 package org.example.test.controller;
 
 import org.example.test.entity.Playlist;
+import org.example.test.entity.Tag;
+import org.example.test.entity.Track;
 import org.example.test.exception.ServerException;
 import org.example.test.service.PlaylistService;
 import org.example.test.service.RequestCounterService;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.1.106:5173/", "*"},
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE},
+        allowedHeaders = {"Authorization", "Content-Type"})
 @RestController
 @RequestMapping("/api/playlists")
 public class PlaylistController {
@@ -49,9 +54,9 @@ public class PlaylistController {
     }
 
     @PostMapping()
-    public void postPlaylist(@RequestParam String name, @RequestParam Integer userId) {
+    public Playlist postPlaylist(@RequestParam String name, @RequestParam Integer userId) {
         counterService.requestIncrement();
-        playlistService.postPlaylist(userId, name);
+        return playlistService.postPlaylist(userId, name);
     }
 
     @DeleteMapping("/{id}")
@@ -68,9 +73,9 @@ public class PlaylistController {
     }
 
     @PostMapping("/{playlistId}/tracks/{trackId}")
-    public void addTrackToPlaylist(@PathVariable Integer playlistId, @PathVariable Integer trackId) {
+    public Track addTrackToPlaylist(@PathVariable Integer playlistId, @PathVariable Integer trackId) {
         counterService.requestIncrement();
-        playlistService.addTrackToPlaylist(playlistId, trackId);
+        return playlistService.addTrackToPlaylist(playlistId, trackId);
     }
 
     @DeleteMapping("/{playlistId}/tracks/{trackId}")

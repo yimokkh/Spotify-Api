@@ -61,12 +61,14 @@ public class    UserService {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    public void createUser(User user) {
+    public User createUser(User user) {
         try {
             User savedUser = userRepository.save(user);
             Integer userId = savedUser.getId();
+
             cacheMap.put(userId, savedUser);
             ResponseEntity.ok(savedUser);
+            return savedUser;
         } catch (Exception e) {
             throw new BadRequestErrorException(USER_ALREADY_EXISTS_MESSAGE);
         }
@@ -109,18 +111,19 @@ public class    UserService {
     }
 
     public Optional<User> getUserById(Integer id) {
-        int hashCode = Objects.hash("user_by_id", id);
-        Object cachedData = cacheMap.get(hashCode);
+        Optional<User> userOptional = userRepository.findById(id);
 
-        if (cachedData != null) {
-            return Optional.of((User) cachedData);
-        } else {
-            Optional<User> userOptional = Optional.ofNullable(userRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_MESSAGE)));
-            userOptional.ifPresent(user -> cacheMap.put(hashCode, user));
-            return userOptional;
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Пользователь с ID " + id + " не найден.");
         }
+
+        userOptional.ifPresent(user -> {
+            int hashCode = Objects.hash("user_by_id", id);
+            cacheMap.put(hashCode, user);
+        });
+        return userOptional;
     }
+
 
     private void updateCacheForAllUsers() {
         String cacheKey = "all_users";

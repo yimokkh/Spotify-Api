@@ -34,12 +34,13 @@ public class TrackService {
         this.tagRepository = tagRepository;
     }
 
-    public void postTrack(Track track) {
+    public Track postTrack(Track track) {
         try {
             Track savedTrack = trackRepository.save(track);
             Integer trackId = savedTrack.getId();
             cacheMap.put(trackId, savedTrack);
             ResponseEntity.ok(savedTrack);
+            return savedTrack;
         } catch (Exception e) {
             throw new BadRequestErrorException("Failed to create track: " + e.getMessage());
         }
@@ -82,27 +83,33 @@ public class TrackService {
     }
 
     public Optional<Track> getTrackById(Integer id) {
-        int hashCode = Objects.hash("track_by_id", id);
-        Object cachedData = cacheMap.get(hashCode);
+        Optional<Track> trackOptional = trackRepository.findById(id);
 
-        if (cachedData != null) {
-            return Optional.ofNullable((Track) cachedData);
-        } else {
-            Optional<Track> trackOptional = Optional.ofNullable(trackRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException(TRACK_NOT_FOUND_MESSAGE)));
-            trackOptional.ifPresent(track -> cacheMap.put(hashCode, track));
-            return trackOptional;
+        if (trackOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Трек с ID " + id + " не найден.");
         }
+
+        trackOptional.ifPresent(track -> {
+            int hashCode = Objects.hash("track_by_id", id);
+            cacheMap.put(hashCode, track);
+        });
+        return trackOptional;
     }
 
-    public void addTagToTrack(Integer trackId, Integer tagId) {
+    public Tag addTagToTrack(Integer trackId, Integer tagId) {
         Track track = trackRepository.findById(trackId).orElseThrow(() -> new ResourceNotFoundException(TRACK_NOT_FOUND_MESSAGE));
         Tag tag = tagRepository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException(TAG_NOT_FOUND_MESSAGE));
 
-        track.addTag(tag);
-        tag.getTracks().add(track);
-        trackRepository.save(track);
-        updateCacheForTrackById(trackId);
+        List<Tag> trackTags = track.getTags();
+        if (!trackTags.contains(tag)) {
+            track.addTag(tag);
+            tag.getTracks().add(track);
+            trackRepository.save(track);
+            updateCacheForTrackById(trackId);
+            return tag;
+        } else {
+            throw new IllegalArgumentException("Tag is already in track!");
+        }
     }
 
     public void removeTagFromTrack(Integer trackId, Integer tagId) {

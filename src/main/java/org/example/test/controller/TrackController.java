@@ -1,5 +1,6 @@
 package org.example.test.controller;
 
+import org.example.test.entity.Tag;
 import org.example.test.entity.Track;
 import org.example.test.service.RequestCounterService;
 import org.example.test.service.TrackService;
@@ -8,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.1.106:5173/", "*"},
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE},
+        allowedHeaders = {"Authorization", "Content-Type"})
 @RestController
 @RequestMapping("/api/tracks")
 public class TrackController {
@@ -35,10 +38,10 @@ public class TrackController {
     }
 
     @PostMapping()
-    public void postTrack(@RequestParam String name,
+    public Track postTrack(@RequestParam String name,
                           @RequestParam String artist) {
         counterService.requestIncrement();
-        trackService.postTrack(new Track(name, artist));
+        return trackService.postTrack(new Track(name, artist));
     }
 
     @DeleteMapping("/{id}")
@@ -55,9 +58,9 @@ public class TrackController {
     }
 
     @PostMapping("/{trackId}/tags/{tagId}")
-    public void addTagToTrack(@PathVariable Integer trackId, @PathVariable Integer tagId) {
+    public Tag addTagToTrack(@PathVariable Integer trackId, @PathVariable Integer tagId) {
         counterService.requestIncrement();
-        trackService.addTagToTrack(trackId, tagId);
+        return trackService.addTagToTrack(trackId, tagId);
     }
 
     @DeleteMapping("/{trackId}/tags/{tagId}")

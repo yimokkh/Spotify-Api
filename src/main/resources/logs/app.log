@@ -1,0 +1,92 @@
+22:46:54.382 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+22:46:54.382 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+22:46:54.445 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 63 ms with message: No tracks has been created!
+22:46:54.445 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers() failed in 63 ms with message: No users has been created!
+22:46:58.422 INFO  o.e.test.aop.aspect.LoggingAspect - Called method createUser() with args: [org.example.test.entity.User@237ee000]
+22:46:58.454 INFO  o.e.test.aop.aspect.LoggingAspect - Method createUser returned value: org.example.test.entity.User@237ee000 in 32 ms
+22:48:41.764 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+22:48:41.764 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+22:48:41.769 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 4 ms with message: No tracks has been created!
+22:48:41.776 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@329f1557]] in 11 ms
+22:48:47.000 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getUserById() with args: [1]
+22:48:47.009 INFO  o.e.test.aop.aspect.LoggingAspect - Method getUserById returned value: Optional[org.example.test.entity.User@7458d053] in 9 ms
+22:48:48.857 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+22:48:48.857 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+22:48:48.861 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 4 ms with message: No tracks has been created!
+22:48:48.861 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@48c72768]] in 4 ms
+22:48:51.301 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+22:48:51.301 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+22:48:51.305 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@72e0b18]] in 4 ms
+22:48:51.305 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 4 ms with message: No tracks has been created!
+23:33:55.343 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:33:55.343 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+23:33:55.346 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@77d3643f]] in 3 ms
+23:33:55.346 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 3 ms with message: No tracks has been created!
+23:33:58.697 INFO  o.e.test.aop.aspect.LoggingAspect - Called method deleteUserById() with args: [1]
+23:33:58.714 INFO  o.e.test.aop.aspect.LoggingAspect - Method deleteUserById returned value: null in 17 ms
+23:34:03.883 INFO  o.e.test.aop.aspect.LoggingAspect - Called method createUser() with args: [org.example.test.entity.User@332e606f]
+23:34:03.887 INFO  o.e.test.aop.aspect.LoggingAspect - Method createUser returned value: org.example.test.entity.User@332e606f in 4 ms
+23:34:07.952 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getUserById() with args: [2]
+23:34:07.956 INFO  o.e.test.aop.aspect.LoggingAspect - Method getUserById returned value: Optional[org.example.test.entity.User@780e544c] in 4 ms
+23:34:18.522 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postPlaylist() with args: [2, play1]
+23:34:18.541 INFO  o.e.test.aop.aspect.LoggingAspect - Method postPlaylist returned value: org.example.test.entity.Playlist@303a781a in 19 ms
+23:34:19.680 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getPlaylistById() with args: [1]
+23:34:19.684 INFO  o.e.test.aop.aspect.LoggingAspect - Method getPlaylistById returned value: Optional[org.example.test.entity.Playlist@285a2540] in 4 ms
+23:34:22.525 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:34:22.528 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 3 ms with message: No tracks has been created!
+23:34:26.716 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:34:26.716 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+23:34:26.719 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks() failed in 3 ms with message: No tracks has been created!
+23:34:26.719 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@5856866f]] in 3 ms
+23:34:38.283 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postTrack() with args: [org.example.test.entity.Track@6e6234a4]
+23:34:38.289 INFO  o.e.test.aop.aspect.LoggingAspect - Method postTrack returned value: org.example.test.entity.Track@6e6234a4 in 6 ms
+23:34:40.440 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getTrackById() with args: [1]
+23:34:40.444 INFO  o.e.test.aop.aspect.LoggingAspect - Method getTrackById returned value: Optional[org.example.test.entity.Track@52101127] in 3 ms
+23:34:41.080 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTags() with args: []
+23:34:41.084 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTags() failed in 4 ms with message: No tag has been created! :(
+23:34:44.324 INFO  o.e.test.aop.aspect.LoggingAspect - Called method postTag() with args: [org.example.test.entity.Tag@1217f066]
+23:34:44.335 INFO  o.e.test.aop.aspect.LoggingAspect - Method postTag returned value: org.example.test.entity.Tag@1217f066 in 11 ms
+23:34:45.683 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTagToTrack() with args: [1, 1]
+23:34:45.697 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTagToTrack returned value: org.example.test.entity.Tag@58137ec8 in 13 ms
+23:34:48.398 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:34:48.398 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+23:34:48.401 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@7a5606c4]] in 3 ms
+23:34:48.402 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@533e5db]] in 4 ms
+23:34:49.602 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getUserById() with args: [2]
+23:34:49.605 INFO  o.e.test.aop.aspect.LoggingAspect - Method getUserById returned value: Optional[org.example.test.entity.User@455401bf] in 3 ms
+23:34:50.177 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getPlaylistById() with args: [1]
+23:34:50.179 INFO  o.e.test.aop.aspect.LoggingAspect - Method getPlaylistById returned value: Optional[org.example.test.entity.Playlist@45100640] in 2 ms
+23:34:55.751 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:34:55.756 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@158e5994]] in 4 ms
+23:34:56.665 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTrackToPlaylist() with args: [1, 1]
+23:34:56.680 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTrackToPlaylist returned value: org.example.test.entity.Track@628c0498 in 14 ms
+23:35:02.657 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:35:02.660 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@7608eb87]] in 3 ms
+23:35:11.331 INFO  o.e.test.aop.aspect.LoggingAspect - Called method addTrackToPlaylist() with args: [1, 1]
+23:35:11.336 INFO  o.e.test.aop.aspect.LoggingAspect - Method addTrackToPlaylist() failed in 5 ms with message: Track is already in playlist!
+23:35:21.112 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getPlaylistById() with args: [1]
+23:35:21.115 INFO  o.e.test.aop.aspect.LoggingAspect - Method getPlaylistById returned value: Optional[org.example.test.entity.Playlist@7351650c] in 3 ms
+23:35:21.807 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:35:21.810 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@19c232e8]] in 3 ms
+23:35:39.771 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:35:39.771 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+23:35:39.773 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@72363a9c]] in 2 ms
+23:35:39.773 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@6ab39ab4]] in 2 ms
+23:53:19.075 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+23:53:19.075 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:53:19.079 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@114c6dd4]] in 3 ms
+23:53:19.079 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@46866db2]] in 3 ms
+23:53:28.245 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+23:53:28.245 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:53:28.257 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@58436143]] in 12 ms
+23:53:28.257 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@454f14bc]] in 12 ms
+23:53:51.248 INFO  o.e.test.aop.aspect.LoggingAspect - Called method createUser() with args: [org.example.test.entity.User@29bd5b8c]
+23:53:51.254 INFO  o.e.test.aop.aspect.LoggingAspect - Method createUser returned value: org.example.test.entity.User@29bd5b8c in 5 ms
+23:56:03.792 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+23:56:03.792 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:56:03.795 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@142aaabd]] in 3 ms
+23:56:03.796 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@223c6ecf, org.example.test.entity.User@7207a123]] in 4 ms
+23:56:23.408 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllTracks() with args: []
+23:56:23.408 INFO  o.e.test.aop.aspect.LoggingAspect - Called method getAllUsers() with args: []
+23:56:23.412 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllTracks returned value: Optional[[org.example.test.entity.Track@402b440]] in 4 ms
+23:56:23.412 INFO  o.e.test.aop.aspect.LoggingAspect - Method getAllUsers returned value: Optional[[org.example.test.entity.User@5a9e079f, org.example.test.entity.User@42bff4ea]] in 4 ms

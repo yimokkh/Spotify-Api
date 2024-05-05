@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.1.106:5173/", "*"},
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE},
+        allowedHeaders = {"Authorization", "Content-Type"})
 @RestController
 @RequestMapping("/api/tags")
 public class TagController {
@@ -33,9 +36,9 @@ public class TagController {
     }
 
     @PostMapping()
-    public void postTag(@RequestParam String text) {
+    public Tag postTag(@RequestParam String text) {
         counterService.requestIncrement();
-        tagService.postTag(new Tag(text));
+        return tagService.postTag(new Tag(text));
     }
 
     @DeleteMapping("/{id}")

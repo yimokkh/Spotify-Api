@@ -32,12 +32,13 @@ public class TagService {
         this.trackService = trackService;
     }
 
-    public void postTag(Tag tag) {
+    public Tag postTag(Tag tag) {
         try {
             Tag savedTag = tagRepository.save(tag);
             Integer tagId = savedTag.getId();
             cacheMap.put(tagId, savedTag);
             ResponseEntity.ok(savedTag);
+            return tag;
         } catch (Exception e) {
             throw new BadRequestErrorException(TAG_ALREADY_EXISTS_MESSAGE);
         }
@@ -80,17 +81,17 @@ public class TagService {
     }
 
     public Optional<Tag> getTagById(Integer id) {
-        int hashCode = Objects.hash("tag_by_id", id);
-        Object cachedData = cacheMap.get(hashCode);
+        Optional<Tag> tagOptional = tagRepository.findById(id);
 
-        if (cachedData != null) {
-            return Optional.ofNullable((Tag) cachedData);
-        } else {
-            Optional<Tag> tagOptional = Optional.ofNullable(tagRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException(TAG_NOT_FOUND_MESSAGE)));
-            tagOptional.ifPresent(tag -> cacheMap.put(hashCode, tag));
-            return tagOptional;
+        if (tagOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Тег с ID " + id + " не найден.");
         }
+
+        tagOptional.ifPresent(tag -> {
+            int hashCode = Objects.hash("tag_by_id", id);
+            cacheMap.put(hashCode, tag);
+        });
+        return tagOptional;
     }
 
     void updateCacheForAllTags() {
