@@ -1,7 +1,6 @@
 package org.example.test.controller;
 
 import org.example.test.entity.Playlist;
-import org.example.test.entity.Tag;
 import org.example.test.entity.Track;
 import org.example.test.exception.ServerException;
 import org.example.test.service.PlaylistService;
