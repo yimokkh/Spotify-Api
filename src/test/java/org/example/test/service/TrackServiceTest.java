@@ -33,6 +33,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.aot.DisabledInAotMode;
@@ -269,7 +270,7 @@ class TrackServiceTest {
         verify(trackRepository, atLeast(1)).findById(1);
         verify(trackRepository).save(isA(Track.class));
         assertNull(actualUpdateTrackNameByIdResult.getBody());
-        assertEquals(200, actualUpdateTrackNameByIdResult.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, actualUpdateTrackNameByIdResult.getStatusCode());
         assertTrue(actualUpdateTrackNameByIdResult.getHeaders().isEmpty());
     }
 
@@ -362,7 +363,7 @@ class TrackServiceTest {
         verify(trackRepository, atLeast(1)).findById(1);
         verify(trackRepository).save(isA(Track.class));
         assertNull(actualUpdateTrackNameByIdResult.getBody());
-        assertEquals(200, actualUpdateTrackNameByIdResult.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, actualUpdateTrackNameByIdResult.getStatusCode());
         assertTrue(actualUpdateTrackNameByIdResult.getHeaders().isEmpty());
     }
 
@@ -944,5 +945,130 @@ class TrackServiceTest {
         verify(track).setPlaylists(isA(Set.class));
         verify(tagRepository).findById(1);
         verify(trackRepository).findById(1);
+    }
+
+    /**
+     * Method under test: {@link TrackService#postTrack(Track)}
+     */
+    @Test
+    void testPostTrack() {
+        // Arrange
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+
+        Track track = new Track();
+        track.addTag(tag);
+        track.setArtist("Artist");
+        track.setId(1);
+        track.setName("Name");
+        track.setPlaylists(new HashSet<>());
+        when(trackRepository.save(Mockito.<Track>any())).thenReturn(track);
+        doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        Tag tag2 = new Tag();
+        tag2.setId(1);
+        tag2.setText("Text");
+
+        Track track2 = new Track();
+        track2.addTag(tag2);
+        track2.setArtist("Artist");
+        track2.setId(1);
+        track2.setName("Name");
+        track2.setPlaylists(new HashSet<>());
+
+        // Act
+        Track actualPostTrackResult = trackService.postTrack(track2);
+
+        // Assert
+        verify(entityCache).put(eq(1), isA(Object.class));
+        verify(trackRepository).save(isA(Track.class));
+        assertSame(track, actualPostTrackResult);
+    }
+
+    /**
+     * Method under test: {@link TrackService#postTrack(Track)}
+     */
+    @Test
+    void testPostTrack2() {
+        // Arrange
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+
+        Track track = new Track();
+        track.addTag(tag);
+        track.setArtist("Artist");
+        track.setId(1);
+        track.setName("Name");
+        track.setPlaylists(new HashSet<>());
+        when(trackRepository.save(Mockito.<Track>any())).thenReturn(track);
+        doThrow(new BadRequestErrorException("An error occurred")).when(entityCache)
+                .put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        Tag tag2 = new Tag();
+        tag2.setId(1);
+        tag2.setText("Text");
+
+        Track track2 = new Track();
+        track2.addTag(tag2);
+        track2.setArtist("Artist");
+        track2.setId(1);
+        track2.setName("Name");
+        track2.setPlaylists(new HashSet<>());
+
+        // Act and Assert
+        assertThrows(BadRequestErrorException.class, () -> trackService.postTrack(track2));
+        verify(entityCache).put(eq(1), isA(Object.class));
+        verify(trackRepository).save(isA(Track.class));
+    }
+
+    /**
+     * Method under test: {@link TrackService#postTrack(Track)}
+     */
+    @Test
+    void testPostTrack3() {
+        // Arrange
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+        Track track = mock(Track.class);
+        when(track.getId()).thenReturn(1);
+        doNothing().when(track).addTag(Mockito.<Tag>any());
+        doNothing().when(track).setArtist(Mockito.<String>any());
+        doNothing().when(track).setId(Mockito.<Integer>any());
+        doNothing().when(track).setName(Mockito.<String>any());
+        doNothing().when(track).setPlaylists(Mockito.<Set<Playlist>>any());
+        track.addTag(tag);
+        track.setArtist("Artist");
+        track.setId(1);
+        track.setName("Name");
+        track.setPlaylists(new HashSet<>());
+        when(trackRepository.save(Mockito.<Track>any())).thenReturn(track);
+        doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        Tag tag2 = new Tag();
+        tag2.setId(1);
+        tag2.setText("Text");
+
+        Track track2 = new Track();
+        track2.addTag(tag2);
+        track2.setArtist("Artist");
+        track2.setId(1);
+        track2.setName("Name");
+        track2.setPlaylists(new HashSet<>());
+
+        // Act
+        trackService.postTrack(track2);
+
+        // Assert
+        verify(entityCache).put(eq(1), isA(Object.class));
+        verify(track).addTag(isA(Tag.class));
+        verify(track).getId();
+        verify(track).setArtist("Artist");
+        verify(track).setId(1);
+        verify(track).setName("Name");
+        verify(track).setPlaylists(isA(Set.class));
+        verify(trackRepository).save(isA(Track.class));
     }
 }

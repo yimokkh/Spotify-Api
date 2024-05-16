@@ -23,7 +23,7 @@ class RequestCounterServiceTest {
     //   Diffblue Cover was unable to create a Spring-specific test for this Spring method.
 
     // Arrange
-    RequestCounterService requestCounterService = new RequestCounterService();
+    requestCounterService = new RequestCounterService();
 
     // Act
     requestCounterService.requestIncrement();
