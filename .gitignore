@@ -36,3 +36,5 @@ mvnw
 mvnw.cmd
 
 mysql-data
+
+docker
