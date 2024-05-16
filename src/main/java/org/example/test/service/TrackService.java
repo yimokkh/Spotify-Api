@@ -78,7 +78,7 @@ public class TrackService {
             trackList.forEach(track -> cacheMap.put(track.getId(), track));
             return Optional.of(trackList);
         } else {
-            throw new ResourceNotFoundException("No tracks has been created!");
+            throw new ResourceNotFoundException("No tracks has been created!!");
         }
     }
 
