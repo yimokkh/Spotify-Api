@@ -32,6 +32,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.aot.DisabledInAotMode;
@@ -458,7 +459,7 @@ class PlaylistServiceTest {
         verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         assertNull(actualUpdatePlaylistNameByIdResult.getBody());
-        assertEquals(200, actualUpdatePlaylistNameByIdResult.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, actualUpdatePlaylistNameByIdResult.getStatusCode());
         assertTrue(actualUpdatePlaylistNameByIdResult.getHeaders().isEmpty());
     }
 
@@ -551,7 +552,7 @@ class PlaylistServiceTest {
         verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         assertNull(actualUpdatePlaylistNameByIdResult.getBody());
-        assertEquals(200, actualUpdatePlaylistNameByIdResult.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, actualUpdatePlaylistNameByIdResult.getStatusCode());
         assertTrue(actualUpdatePlaylistNameByIdResult.getHeaders().isEmpty());
     }
 

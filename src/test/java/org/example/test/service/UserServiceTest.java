@@ -9,7 +9,6 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,6 +27,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.aot.DisabledInAotMode;
@@ -90,7 +90,7 @@ class UserServiceTest {
     verify(entityCache).clear();
     verify(entityCache).put(eq(1), isA(Object.class));
     verify(userRepository).save(isA(User.class));
-    assertEquals(200, actualCreateUsersResult.getStatusCodeValue());
+    assertEquals(HttpStatus.OK, actualCreateUsersResult.getStatusCode());
     assertTrue(actualCreateUsersResult.hasBody());
     assertTrue(actualCreateUsersResult.getHeaders().isEmpty());
   }
@@ -160,7 +160,7 @@ class UserServiceTest {
     verify(entityCache).clear();
     verify(entityCache, atLeast(1)).put(eq(1), isA(Object.class));
     verify(userRepository, atLeast(1)).save(Mockito.<User>any());
-    assertEquals(200, actualCreateUsersResult.getStatusCodeValue());
+    assertEquals(HttpStatus.OK, actualCreateUsersResult.getStatusCode());
     assertTrue(actualCreateUsersResult.hasBody());
     assertTrue(actualCreateUsersResult.getHeaders().isEmpty());
   }
@@ -441,7 +441,7 @@ class UserServiceTest {
     verify(userRepository, atLeast(1)).findById(1);
     verify(userRepository).save(isA(User.class));
     assertNull(actualUpdateUserNameByIdResult.getBody());
-    assertEquals(200, actualUpdateUserNameByIdResult.getStatusCodeValue());
+    assertEquals(HttpStatus.OK, actualUpdateUserNameByIdResult.getStatusCode());
     assertTrue(actualUpdateUserNameByIdResult.getHeaders().isEmpty());
   }
 
