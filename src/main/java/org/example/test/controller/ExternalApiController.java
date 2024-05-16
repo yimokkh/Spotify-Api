@@ -7,7 +7,7 @@ import org.example.test.dto.ExternalApiResponseTrack;
 import org.example.test.service.*;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://localhost:5173", "*"},
+@CrossOrigin(origins = {"http://localhost:5173"},
         methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE},
         allowedHeaders = {"Authorization", "Content-Type"})
 @RestController

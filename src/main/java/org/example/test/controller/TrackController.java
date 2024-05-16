@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-@CrossOrigin(origins = {"http://localhost:5173", "*"},
+@CrossOrigin(origins = {"http://localhost:5173"},
         methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE},
         allowedHeaders = {"Authorization", "Content-Type"})
 @RestController
