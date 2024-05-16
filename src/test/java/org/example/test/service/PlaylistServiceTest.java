@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import org.example.test.cache.EntityCache;
 import org.example.test.entity.Playlist;
+import org.example.test.entity.Tag;
 import org.example.test.entity.Track;
 import org.example.test.entity.User;
 import org.example.test.exception.ResourceNotFoundException;
@@ -32,7 +33,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.aot.DisabledInAotMode;
@@ -102,7 +102,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -134,7 +134,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -165,7 +165,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -211,7 +211,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -234,7 +234,7 @@ class PlaylistServiceTest {
 
         Playlist playlist3 = new Playlist();
         playlist3.setId(2);
-        playlist3.setName("New Name");
+        playlist3.setName("Name");
         playlist3.setTracks(new ArrayList<>());
         playlist3.setUser(user3);
 
@@ -273,7 +273,7 @@ class PlaylistServiceTest {
         doNothing().when(playlist).setTracks(Mockito.<List<Track>>any());
         doNothing().when(playlist).setUser(Mockito.<User>any());
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -289,7 +289,7 @@ class PlaylistServiceTest {
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
         verify(playlist, atLeast(1)).getTracks();
         verify(playlist).setId(1);
-        verify(playlist).setName("New Name");
+        verify(playlist).setName("Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
         verify(playlistRepository).deleteById(1);
@@ -308,7 +308,12 @@ class PlaylistServiceTest {
         user.setName("Name");
         user.setPlaylists(new ArrayList<>());
 
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("all_playlists");
+
         Track track = new Track();
+        track.addTag(tag);
         track.setArtist("all_playlists");
         track.setId(1);
         track.setName("all_playlists");
@@ -323,7 +328,7 @@ class PlaylistServiceTest {
         doNothing().when(playlist).setTracks(Mockito.<List<Track>>any());
         doNothing().when(playlist).setUser(Mockito.<User>any());
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -339,7 +344,7 @@ class PlaylistServiceTest {
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
         verify(playlist, atLeast(1)).getTracks();
         verify(playlist).setId(1);
-        verify(playlist).setName("New Name");
+        verify(playlist).setName("Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
         verify(playlistRepository).deleteById(1);
@@ -358,13 +363,23 @@ class PlaylistServiceTest {
         user.setName("Name");
         user.setPlaylists(new ArrayList<>());
 
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("all_playlists");
+
         Track track = new Track();
+        track.addTag(tag);
         track.setArtist("all_playlists");
         track.setId(1);
         track.setName("all_playlists");
         track.setPlaylists(new HashSet<>());
 
+        Tag tag2 = new Tag();
+        tag2.setId(2);
+        tag2.setText("Text");
+
         Track track2 = new Track();
+        track2.addTag(tag2);
         track2.setArtist("Artist");
         track2.setId(2);
         track2.setName("Name");
@@ -380,7 +395,7 @@ class PlaylistServiceTest {
         doNothing().when(playlist).setTracks(Mockito.<List<Track>>any());
         doNothing().when(playlist).setUser(Mockito.<User>any());
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -396,7 +411,7 @@ class PlaylistServiceTest {
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
         verify(playlist, atLeast(1)).getTracks();
         verify(playlist).setId(1);
-        verify(playlist).setName("New Name");
+        verify(playlist).setName("Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
         verify(playlistRepository).deleteById(1);
@@ -432,7 +447,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -444,7 +459,7 @@ class PlaylistServiceTest {
 
         Playlist playlist2 = new Playlist();
         playlist2.setId(1);
-        playlist2.setName("New Name");
+        playlist2.setName("Name");
         playlist2.setTracks(new ArrayList<>());
         playlist2.setUser(user2);
         when(playlistRepository.save(Mockito.<Playlist>any())).thenReturn(playlist2);
@@ -459,7 +474,7 @@ class PlaylistServiceTest {
         verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         assertNull(actualUpdatePlaylistNameByIdResult.getBody());
-        assertEquals(HttpStatus.OK, actualUpdatePlaylistNameByIdResult.getStatusCode());
+        assertEquals(200, actualUpdatePlaylistNameByIdResult.getStatusCodeValue());
         assertTrue(actualUpdatePlaylistNameByIdResult.getHeaders().isEmpty());
     }
 
@@ -477,7 +492,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -489,7 +504,7 @@ class PlaylistServiceTest {
 
         Playlist playlist2 = new Playlist();
         playlist2.setId(1);
-        playlist2.setName("New Name");
+        playlist2.setName("Name");
         playlist2.setTracks(new ArrayList<>());
         playlist2.setUser(user2);
         when(playlistRepository.save(Mockito.<Playlist>any())).thenReturn(playlist2);
@@ -521,7 +536,7 @@ class PlaylistServiceTest {
         doNothing().when(playlist).setTracks(Mockito.<List<Track>>any());
         doNothing().when(playlist).setUser(Mockito.<User>any());
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -533,7 +548,7 @@ class PlaylistServiceTest {
 
         Playlist playlist2 = new Playlist();
         playlist2.setId(1);
-        playlist2.setName("New Name");
+        playlist2.setName("Name");
         playlist2.setTracks(new ArrayList<>());
         playlist2.setUser(user2);
         when(playlistRepository.save(Mockito.<Playlist>any())).thenReturn(playlist2);
@@ -546,13 +561,13 @@ class PlaylistServiceTest {
         // Assert
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
         verify(playlist).setId(1);
-        verify(playlist, atLeast(1)).setName("New Name");
+        verify(playlist, atLeast(1)).setName(Mockito.<String>any());
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
         verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         assertNull(actualUpdatePlaylistNameByIdResult.getBody());
-        assertEquals(HttpStatus.OK, actualUpdatePlaylistNameByIdResult.getStatusCode());
+        assertEquals(200, actualUpdatePlaylistNameByIdResult.getStatusCodeValue());
         assertTrue(actualUpdatePlaylistNameByIdResult.getHeaders().isEmpty());
     }
 
@@ -585,7 +600,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -597,13 +612,18 @@ class PlaylistServiceTest {
 
         Playlist playlist2 = new Playlist();
         playlist2.setId(1);
-        playlist2.setName("New Name");
+        playlist2.setName("Name");
         playlist2.setTracks(new ArrayList<>());
         playlist2.setUser(user2);
         when(playlistRepository.save(Mockito.<Playlist>any())).thenReturn(playlist2);
         when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
 
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+
         Track track = new Track();
+        track.addTag(tag);
         track.setArtist("Artist");
         track.setId(1);
         track.setName("Name");
@@ -613,13 +633,14 @@ class PlaylistServiceTest {
         doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
 
         // Act
-        playlistService.addTrackToPlaylist(1, 1);
+        Track actualAddTrackToPlaylistResult = playlistService.addTrackToPlaylist(1, 1);
 
         // Assert
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
         verify(trackRepository).findById(1);
         verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
+        assertSame(track, actualAddTrackToPlaylistResult);
     }
 
     /**
@@ -636,7 +657,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -648,13 +669,18 @@ class PlaylistServiceTest {
 
         Playlist playlist2 = new Playlist();
         playlist2.setId(1);
-        playlist2.setName("New Name");
+        playlist2.setName("Name");
         playlist2.setTracks(new ArrayList<>());
         playlist2.setUser(user2);
         when(playlistRepository.save(Mockito.<Playlist>any())).thenReturn(playlist2);
         when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
 
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+
         Track track = new Track();
+        track.addTag(tag);
         track.setArtist("Artist");
         track.setId(1);
         track.setName("Name");
@@ -684,13 +710,14 @@ class PlaylistServiceTest {
         user.setName("Name");
         user.setPlaylists(new ArrayList<>());
         Playlist playlist = mock(Playlist.class);
+        when(playlist.getTracks()).thenReturn(new ArrayList<>());
         doNothing().when(playlist).addTrack(Mockito.<Track>any());
         doNothing().when(playlist).setId(Mockito.<Integer>any());
         doNothing().when(playlist).setName(Mockito.<String>any());
         doNothing().when(playlist).setTracks(Mockito.<List<Track>>any());
         doNothing().when(playlist).setUser(Mockito.<User>any());
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -702,13 +729,18 @@ class PlaylistServiceTest {
 
         Playlist playlist2 = new Playlist();
         playlist2.setId(1);
-        playlist2.setName("New Name");
+        playlist2.setName("Name");
         playlist2.setTracks(new ArrayList<>());
         playlist2.setUser(user2);
         when(playlistRepository.save(Mockito.<Playlist>any())).thenReturn(playlist2);
         when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
 
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+
         Track track = new Track();
+        track.addTag(tag);
         track.setArtist("Artist");
         track.setId(1);
         track.setName("Name");
@@ -718,18 +750,20 @@ class PlaylistServiceTest {
         doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
 
         // Act
-        playlistService.addTrackToPlaylist(1, 1);
+        Track actualAddTrackToPlaylistResult = playlistService.addTrackToPlaylist(1, 1);
 
         // Assert
         verify(entityCache).put(eq(-1693582036), isA(Object.class));
         verify(playlist).addTrack(isA(Track.class));
+        verify(playlist).getTracks();
         verify(playlist).setId(1);
-        verify(playlist).setName("New Name");
+        verify(playlist).setName("Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
         verify(trackRepository).findById(1);
         verify(playlistRepository, atLeast(1)).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
+        assertSame(track, actualAddTrackToPlaylistResult);
     }
 
     /**
@@ -742,7 +776,12 @@ class PlaylistServiceTest {
         Optional<Playlist> emptyResult = Optional.empty();
         when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(emptyResult);
 
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+
         Track track = new Track();
+        track.addTag(tag);
         track.setArtist("Artist");
         track.setId(1);
         track.setName("Name");
@@ -772,7 +811,7 @@ class PlaylistServiceTest {
         doNothing().when(playlist).setTracks(Mockito.<List<Track>>any());
         doNothing().when(playlist).setUser(Mockito.<User>any());
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -783,7 +822,7 @@ class PlaylistServiceTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.addTrackToPlaylist(1, 1));
         verify(playlist).setId(1);
-        verify(playlist).setName("New Name");
+        verify(playlist).setName("Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
         verify(playlistRepository).findById(1);
@@ -804,13 +843,18 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
         when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
 
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+
         Track track = new Track();
+        track.addTag(tag);
         track.setArtist("Artist");
         track.setId(1);
         track.setName("Name");
@@ -838,7 +882,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -870,13 +914,18 @@ class PlaylistServiceTest {
         doNothing().when(playlist).setTracks(Mockito.<List<Track>>any());
         doNothing().when(playlist).setUser(Mockito.<User>any());
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
         when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
 
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+
         Track track = new Track();
+        track.addTag(tag);
         track.setArtist("Artist");
         track.setId(1);
         track.setName("Name");
@@ -888,7 +937,7 @@ class PlaylistServiceTest {
         assertThrows(IllegalArgumentException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));
         verify(playlist).getTracks();
         verify(playlist).setId(1);
-        verify(playlist).setName("New Name");
+        verify(playlist).setName("Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
         verify(playlistRepository).findById(1);
@@ -905,7 +954,12 @@ class PlaylistServiceTest {
         Optional<Playlist> emptyResult = Optional.empty();
         when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(emptyResult);
 
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setText("Text");
+
         Track track = new Track();
+        track.addTag(tag);
         track.setArtist("Artist");
         track.setId(1);
         track.setName("Name");
@@ -935,7 +989,7 @@ class PlaylistServiceTest {
         doNothing().when(playlist).setTracks(Mockito.<List<Track>>any());
         doNothing().when(playlist).setUser(Mockito.<User>any());
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         Optional<Playlist> ofResult = Optional.of(playlist);
@@ -946,7 +1000,7 @@ class PlaylistServiceTest {
         // Act and Assert
         assertThrows(ResourceNotFoundException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));
         verify(playlist).setId(1);
-        verify(playlist).setName("New Name");
+        verify(playlist).setName("Name");
         verify(playlist).setTracks(isA(List.class));
         verify(playlist).setUser(isA(User.class));
         verify(playlistRepository).findById(1);
@@ -1041,6 +1095,116 @@ class PlaylistServiceTest {
     }
 
     /**
+     * Method under test: {@link PlaylistService#getAllPlaylists()}
+     */
+    @Test
+    void testGetAllPlaylists4() {
+        // Arrange
+        User user = new User();
+        user.setId(1);
+        user.setName("No playlists has been created!");
+        user.setPlaylists(new ArrayList<>());
+        Playlist playlist = mock(Playlist.class);
+        when(playlist.getId()).thenReturn(1);
+        doNothing().when(playlist).setId(Mockito.<Integer>any());
+        doNothing().when(playlist).setName(Mockito.<String>any());
+        doNothing().when(playlist).setTracks(Mockito.<List<Track>>any());
+        doNothing().when(playlist).setUser(Mockito.<User>any());
+        playlist.setId(1);
+        playlist.setName("No playlists has been created!");
+        playlist.setTracks(new ArrayList<>());
+        playlist.setUser(user);
+
+        ArrayList<Playlist> playlistList = new ArrayList<>();
+        playlistList.add(playlist);
+        when(playlistRepository.findAll()).thenReturn(playlistList);
+        doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        // Act
+        Optional<List<Playlist>> actualAllPlaylists = playlistService.getAllPlaylists();
+
+        // Assert
+        verify(entityCache).put(eq(1), isA(Object.class));
+        verify(playlist).getId();
+        verify(playlist).setId(1);
+        verify(playlist).setName("No playlists has been created!");
+        verify(playlist).setTracks(isA(List.class));
+        verify(playlist).setUser(isA(User.class));
+        verify(playlistRepository).findAll();
+        assertTrue(actualAllPlaylists.isPresent());
+    }
+
+    /**
+     * Method under test: {@link PlaylistService#getPlaylistById(Integer)}
+     */
+    @Test
+    void testGetPlaylistById() {
+        // Arrange
+        User user = new User();
+        user.setId(1);
+        user.setName("Name");
+        user.setPlaylists(new ArrayList<>());
+
+        Playlist playlist = new Playlist();
+        playlist.setId(1);
+        playlist.setName("Name");
+        playlist.setTracks(new ArrayList<>());
+        playlist.setUser(user);
+        Optional<Playlist> ofResult = Optional.of(playlist);
+        when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+        doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        // Act
+        Optional<Playlist> actualPlaylistById = playlistService.getPlaylistById(1);
+
+        // Assert
+        verify(entityCache).put(eq(-1693582036), isA(Object.class));
+        verify(playlistRepository).findById(1);
+        assertSame(ofResult, actualPlaylistById);
+    }
+
+    /**
+     * Method under test: {@link PlaylistService#getPlaylistById(Integer)}
+     */
+    @Test
+    void testGetPlaylistById2() {
+        // Arrange
+        User user = new User();
+        user.setId(1);
+        user.setName("Name");
+        user.setPlaylists(new ArrayList<>());
+
+        Playlist playlist = new Playlist();
+        playlist.setId(1);
+        playlist.setName("Name");
+        playlist.setTracks(new ArrayList<>());
+        playlist.setUser(user);
+        Optional<Playlist> ofResult = Optional.of(playlist);
+        when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+        doThrow(new ResourceNotFoundException("An error occurred")).when(entityCache)
+                .put(Mockito.<Integer>any(), Mockito.<Object>any());
+
+        // Act and Assert
+        assertThrows(ResourceNotFoundException.class, () -> playlistService.getPlaylistById(1));
+        verify(entityCache).put(eq(-1693582036), isA(Object.class));
+        verify(playlistRepository).findById(1);
+    }
+
+    /**
+     * Method under test: {@link PlaylistService#getPlaylistById(Integer)}
+     */
+    @Test
+    void testGetPlaylistById3() {
+        // Arrange
+        Optional<Playlist> emptyResult = Optional.empty();
+        when(playlistRepository.findById(Mockito.<Integer>any())).thenReturn(emptyResult);
+
+        // Act and Assert
+        assertThrows(ResourceNotFoundException.class, () -> playlistService.getPlaylistById(1));
+        verify(playlistRepository).findById(1);
+    }
+
+    /**
      * Method under test: {@link PlaylistService#postPlaylist(Integer, String)}
      */
     @Test
@@ -1053,8 +1217,9 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
-        playlist.setTracks(new ArrayList<>());
+        playlist.setName("Name");
+        ArrayList<Track> tracks = new ArrayList<>();
+        playlist.setTracks(tracks);
         playlist.setUser(user);
         when(playlistRepository.save(Mockito.<Playlist>any())).thenReturn(playlist);
         when(playlistRepository.findAll()).thenReturn(new ArrayList<>());
@@ -1068,13 +1233,15 @@ class PlaylistServiceTest {
         doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
 
         // Act
-        playlistService.postPlaylist(1, "Name");
+        Playlist actualPostPlaylistResult = playlistService.postPlaylist(1, "Name");
 
         // Assert
         verify(entityCache).put(eq(-1491249213), isA(Object.class));
         verify(userRepository).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         verify(playlistRepository).findAll();
+        assertEquals("Name", actualPostPlaylistResult.getName());
+        assertEquals(tracks, actualPostPlaylistResult.getTracks());
     }
 
     /**
@@ -1090,7 +1257,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
         when(playlistRepository.save(Mockito.<Playlist>any())).thenReturn(playlist);
@@ -1126,8 +1293,9 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
-        playlist.setTracks(new ArrayList<>());
+        playlist.setName("Name");
+        ArrayList<Track> tracks = new ArrayList<>();
+        playlist.setTracks(tracks);
         playlist.setUser(user);
 
         User user2 = new User();
@@ -1155,13 +1323,15 @@ class PlaylistServiceTest {
         doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
 
         // Act
-        playlistService.postPlaylist(1, "Name");
+        Playlist actualPostPlaylistResult = playlistService.postPlaylist(1, "Name");
 
         // Assert
         verify(entityCache, atLeast(1)).put(Mockito.<Integer>any(), Mockito.<Object>any());
         verify(userRepository).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         verify(playlistRepository).findAll();
+        assertEquals("Name", actualPostPlaylistResult.getName());
+        assertEquals(tracks, actualPostPlaylistResult.getTracks());
     }
 
     /**
@@ -1177,8 +1347,9 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
-        playlist.setTracks(new ArrayList<>());
+        playlist.setName("Name");
+        ArrayList<Track> tracks = new ArrayList<>();
+        playlist.setTracks(tracks);
         playlist.setUser(user);
 
         User user2 = new User();
@@ -1199,7 +1370,7 @@ class PlaylistServiceTest {
 
         Playlist playlist3 = new Playlist();
         playlist3.setId(2);
-        playlist3.setName("New Name");
+        playlist3.setName("Name");
         playlist3.setTracks(new ArrayList<>());
         playlist3.setUser(user3);
 
@@ -1218,13 +1389,15 @@ class PlaylistServiceTest {
         doNothing().when(entityCache).put(Mockito.<Integer>any(), Mockito.<Object>any());
 
         // Act
-        playlistService.postPlaylist(1, "Name");
+        Playlist actualPostPlaylistResult = playlistService.postPlaylist(1, "Name");
 
         // Assert
         verify(entityCache, atLeast(1)).put(Mockito.<Integer>any(), Mockito.<Object>any());
         verify(userRepository).findById(1);
         verify(playlistRepository).save(isA(Playlist.class));
         verify(playlistRepository).findAll();
+        assertEquals("Name", actualPostPlaylistResult.getName());
+        assertEquals(tracks, actualPostPlaylistResult.getTracks());
     }
 
     /**
@@ -1254,7 +1427,7 @@ class PlaylistServiceTest {
 
         Playlist playlist = new Playlist();
         playlist.setId(1);
-        playlist.setName("New Name");
+        playlist.setName("Name");
         playlist.setTracks(new ArrayList<>());
         playlist.setUser(user);
 
